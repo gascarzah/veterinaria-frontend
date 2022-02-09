@@ -1,7 +1,6 @@
 import {
   Alert,
   Button,
-  Checkbox,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -23,34 +22,10 @@ import TablaHeader from "./TablaHeader";
 import { useDispatch, useSelector } from "react-redux";
 
 
-import { makeStyles } from "@mui/styles";
-import {
-  eliminarTipoRaza,
-  getTiposRaza,
-} from "../../../redux/actions/TipoRaza";
-import TipoRazaForm from "../form/index";
+import MascotaForm from "../form";
+import { eliminarMascota, getMascotas } from "../../../redux/actions/Mascota";
+import { Link } from "react-router-dom";
 
-// import Confirmacion from '/Confirmacion'
-
-// const customStyles = makeStyles((theme) => ({
-//   modal: {
-//     position: 'absolute',
-//     width: 400,
-//     backgroundColor: theme.palette.background.paper,
-//     border: '2px solid #000',
-//     boxShadow: theme.shadows[5],
-//     padding: theme.spacing(2, 4, 3),
-//     top: '50%',
-//     left: '50%',
-//     transform: 'translate(-50%, -50%)'
-//   },
-//   iconos:{
-//     cursor: 'pointer'
-//   },
-//   inputMaterial:{
-//     width: '100%'
-//   }
-// }));
 function stableSort(array, comparator) {
   // console.log(array)
   const stabilizedThis = array.map((el, index) => [el, index]);
@@ -82,12 +57,12 @@ function getComparator(order, orderBy) {
 
 
 
-const TablaTipoRaza = () => {
+const TablaMascota = () => {
   const state = useSelector((state) => state);
-  const { tiposRaza } = state;
-  const { list } = tiposRaza;
+  const { mascotaReducer } = state;
+  const { list } = mascotaReducer;
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("idTipoRaza");
+  const [orderBy, setOrderBy] = useState("idMascota");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   // const [dense, setDense] = useState(false);
@@ -107,15 +82,17 @@ const TablaTipoRaza = () => {
 
   const dispatch = useDispatch();
 
+    //  console.log(state)
+
   useEffect(() => {
-    // console.log(state)
+ 
     setRows(list.data?.content);
     setDatos(list.data?.content);
     setPage(list.data?.number);
   }, [list.data?.content]);
 
   useEffect(() => {
-    dispatch(getTiposRaza(page, rowsPerPage));
+    dispatch(getMascotas(page, rowsPerPage));
   }, []);
 
   const handleRequestSort = (event, property) => {
@@ -126,7 +103,7 @@ const TablaTipoRaza = () => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = list.data.content.content.map((n) => n.idTipoRaza);
+      const newSelecteds = list.data.content.content.map((n) => n.idMascota);
       setSelected(newSelecteds);
       return;
     }
@@ -155,18 +132,15 @@ const TablaTipoRaza = () => {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    dispatch(getTiposRaza(newPage, rowsPerPage));
+    dispatch(getMascotas(newPage, rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    dispatch(getTiposRaza(0, event.target.value));
+    dispatch(getMascotas(0, event.target.value));
   };
 
-  // const handleChangeDense = (event) => {
-  //   setDense(event.target.checked);
-  // };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -192,25 +166,17 @@ const TablaTipoRaza = () => {
   const handleOpenEdit = (row) => {
     setEditar(true);
     setModalInsertar(true);
-  
-    setData({
-      idTipoRaza: row.idTipoRaza,
-      nombre: row.nombre,
-      descripcion: row.descripcion,
-      idTipoMascota: row.tipoMascota.idTipoMascota,
-      
-    });
+    setData(row);
   };
 
   const handleOpenInsert = () => {
     setEditar(false);
     setModalInsertar(true);
     setData({
-      idTipoRaza: null,
+      idMascota: null,
       nombre: "",
-      descripcion: "",
-      idTipoMascota: "",
-      
+      peso: "",
+      sexo: ""
     });
   };
 
@@ -218,19 +184,6 @@ const TablaTipoRaza = () => {
     setModalInsertar(false);
   };
 
-  // const handleDelete = (id) => {
-  //   if (rows.length === 1) {
-  //     let update = page - 1;
-  //     if (update < 0) {
-  //       update = 0;
-  //     }
-
-  //     setPage(update);
-  //     dispatch(eliminarTipoRaza(id, update, rowsPerPage));
-  //   } else {
-  //     dispatch(eliminarTipoRaza(id, page, rowsPerPage));
-  //   }
-  // };
 
   const handleDelete = () => {
     if (rows.length === 1) {
@@ -240,9 +193,9 @@ const TablaTipoRaza = () => {
       }
       
       setPage(update);
-      dispatch(eliminarTipoRaza(data.idTipoRaza, update, rowsPerPage));
+      dispatch(eliminarMascota(data.idMascota, update, rowsPerPage));
     } else {
-      dispatch(eliminarTipoRaza(data.idTipoRaza, page, rowsPerPage));
+      dispatch(eliminarMascota(data.idMascota, page, rowsPerPage));
     }
     
     cerrarModalEliminar()
@@ -277,13 +230,15 @@ const TablaTipoRaza = () => {
         autoComplete="off"
       >
         <TextField
-          placeholder="Buscar Tipo Raza"
+          placeholder="Buscar Mascota"
           variant="standard"
           name="searched"
           value={searched}
           onChange={handleFilterSearch}
         />
-        <Button size="small" color="primary" onClick={() => handleOpenInsert()}>
+        <Button size="small" color="primary" 
+        component={Link}
+        to='/crear-mascota'>
           Agregar
         </Button>
       </Box>
@@ -304,39 +259,19 @@ const TablaTipoRaza = () => {
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.idTipoRaza);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.idTipoRaza)}
+                      onClick={(event) => handleClick(event, row.idMascota)}
                       role="checkbox"
-                      aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.idTipoRaza}
-                      selected={isItemSelected}
+                      key={row.idMascota}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.idTipoRaza}
-                      </TableCell>
-                      <TableCell align="left">{row.tipoMascota.nombre}</TableCell>
+
                       <TableCell align="left">{row.nombre}</TableCell>
-                      <TableCell align="left">{row.descripcion}</TableCell>
+                      <TableCell align="left">{row.peso}</TableCell>
                       <TableCell align="right">
                         <Button size="small">Ver</Button>
                       </TableCell>
@@ -344,7 +279,8 @@ const TablaTipoRaza = () => {
                         <Button
                           size="small"
                           color="primary"
-                          onClick={() => handleOpenEdit(row)}
+                          component={Link}
+                          to={`/mascota/edit/${row.idMascota}`}
                         >
                           Editar
                         </Button>
@@ -387,7 +323,7 @@ const TablaTipoRaza = () => {
       <Dialog open={modalInsertar} onClose={cerrarModalInsertar}>
         <DialogTitle>Insertar</DialogTitle>
         <DialogContent>
-          <TipoRazaForm
+          <MascotaForm
             data={data}
             editar={editar}
             cerrarModalInsertar={cerrarModalInsertar}
@@ -430,4 +366,4 @@ const TablaTipoRaza = () => {
   );
 };
 
-export default TablaTipoRaza;
+export default TablaMascota;

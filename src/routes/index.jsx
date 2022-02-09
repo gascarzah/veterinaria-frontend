@@ -11,6 +11,9 @@ import TipoRaza from "../pages/TipoRaza";
 import AgregarTipoRaza from "../pages/TipoRaza/Agregar";
 import EditarTipoRaza from "../pages/TipoRaza/Editar";
 import TipoMascota from "../pages/TipoMascota";
+import ListMascota from "../pages/Mascota";
+import AgregarMascota from "../pages/Mascota/Agregar";
+import EditarMascota from "../pages/Mascota/Editar";
 
 const Rutas = () => {
   return (
@@ -46,25 +49,7 @@ const Rutas = () => {
           }
         />
 
-        {/* <Route
-          index
-          path="/crear-categoria-insumo"
-          element={
-            <PrivateRoute>
-              <AgregarCategoriaInsumo />
-            </PrivateRoute>
-          }
-        />
 
-        <Route
-          index
-          path="/categoriaInsumo/edit/:id"
-          element={
-            <PrivateRoute>
-              <EditarCategoriaInsumo />
-            </PrivateRoute>
-          }
-        /> */}
 
         <Route
           index
@@ -82,6 +67,36 @@ const Rutas = () => {
           element={
             <PrivateRoute>
               <TipoMascota />
+            </PrivateRoute>
+          }
+        />
+
+        {/* mascotas */}
+<Route
+          index
+          path="/list-mascotas"
+          element={
+            <PrivateRoute>
+              <ListMascota />
+            </PrivateRoute>
+          }
+        />
+                <Route
+          index
+          path="/crear-mascota"
+          element={
+            <PrivateRoute>
+              <AgregarMascota />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          index
+          path="/mascota/edit/:id"
+          element={
+            <PrivateRoute>
+              <EditarMascota />
             </PrivateRoute>
           }
         />

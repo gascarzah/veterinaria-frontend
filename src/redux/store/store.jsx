@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 
 // import { authReducer } from '../reducer/authReducer';
 import { CategoriaInsumoReducer } from '../reducers/CategoriaInsumoReducer';
+import { MascotaReducer } from '../reducers/MascotaReducer';
 import { TipoMascotaReducer } from '../reducers/TipoMascotaReducer';
 import { TipoRazaReducer } from '../reducers/TipoRazaReducer';
 
@@ -11,7 +12,8 @@ const reducers = combineReducers({
 //   auth: authReducer,
   categoriaInsumos: CategoriaInsumoReducer,
   tiposRaza: TipoRazaReducer,
-  tiposMascota: TipoMascotaReducer
+  tiposMascota: TipoMascotaReducer,
+  mascotaReducer: MascotaReducer
 });
 
 const composeEnhancers =

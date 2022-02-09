@@ -137,3 +137,31 @@ export const actualizarTipoRaza = (dataForm, page, size) => {
     }
   }
 }
+
+export const getRazaPorTipoMascota = (idTipoMascota) => {
+  return async (dispatch) => {
+    dispatch({ type: "GET_TIPO_RAZA_POR_MASCOTA_START" });
+    try {
+      const response = await axiosClient.get(`api/tipo-razas/getByIdTipoMascota/${idTipoMascota}`);
+      console.log(idTipoMascota)
+      console.log('en getRazaPorTipoMascota')
+      console.log(response.data)
+      dispatch({
+        type: "GET_TIPO_RAZA_POR_MASCOTA_SUCCESS",
+        data: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: "GET_TIPO_RAZA_POR_MASCOTA_FAIL",
+        error: {
+          error: true,
+          message: "Ocurrio un error al botener la lista tipo mascota",
+        },
+      });
+    } finally {
+      dispatch({
+        type: "GET_TIPO_RAZA_POR_MASCOTA_FINISH",
+      });
+    }
+  };
+};

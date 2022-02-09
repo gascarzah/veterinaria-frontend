@@ -1,7 +1,7 @@
 
  const initialState = {
     list: {
-        loadingtiporaza: false,
+        loadingmascota: false,
         data: null,
         mensaje: '',
         error: {
@@ -12,21 +12,21 @@
     }
 }
 
-export const TipoRazaReducer = (state = initialState, action) => {
+export const MascotaReducer = (state = initialState, action) => {
    
       
   switch (action.type) {
-    case "GET_TIPO_RAZA_START":
+    case "GET_MASCOTA_START":
       return {
         ...state,
         list: {
             ...state.list,
-            loadingtiporaza: true,
+            loadingmascota: true,
             error: initialState.list.error
           },
       };
 
-    case "GET_TIPO_RAZA_SUCCESS":
+    case "GET_MASCOTA_SUCCESS":
       return {
         ...state,
         list: {
@@ -35,7 +35,7 @@ export const TipoRazaReducer = (state = initialState, action) => {
           },
       };
 
-    case "GET_TIPO_RAZA_FAIL":
+    case "GET_MASCOTA_FAIL":
       return {
         ...state,
         list: {
@@ -43,26 +43,26 @@ export const TipoRazaReducer = (state = initialState, action) => {
             error: action.error
           },
       };
-    case "GET_TIPO_RAZA_FINISH":
+    case "GET_MASCOTA_FINISH":
       return {
         ...state,
         list: {
             ...state.list,
-            loadingtiporaza: false
+            loadingmascota: false
           },
       };
 
 
-      case "DELETE_TIPO_RAZA_START":
+      case "DELETE_MASCOTA_START":
         return {
           ...state,
           list: {
             ...state.list,
-            loadingtiporaza: true,
+            loadingmascota: true,
             error: initialState.list.error
           },
         }
-      case "DELETE_TIPO_RAZA_SUCCESS":
+      case "DELETE_MASCOTA_SUCCESS":
         return {
           ...state,
           list: {
@@ -71,7 +71,7 @@ export const TipoRazaReducer = (state = initialState, action) => {
             mensaje: 'satisfactoriamente'
           },
         }
-      case "DELETE_TIPO_RAZA_FAIL":
+      case "DELETE_MASCOTA_FAIL":
         return {
           ...state,
           list: {
@@ -79,24 +79,24 @@ export const TipoRazaReducer = (state = initialState, action) => {
             error: action.error
           },
         }
-      case "DELETE_TIPO_RAZA_FINISH":
+      case "DELETE_MASCOTA_FINISH":
         return {
           ...state,
           list: {
             ...state.list,
-            loadingtiporaza: false
+            loadingmascota: false
           },
         }
-      case  "ADD_TIPO_RAZA_START":
+      case  "ADD_MASCOTA_START":
         return {
           ...state,
           list: {
             ...state.list,
-            loadingtiporaza: true,
+            loadingmascota: true,
             error: initialState.list.error
           },
         }
-      case  "ADD_TIPO_RAZA_SUCCESS":
+      case  "ADD_MASCOTA_SUCCESS":
         return {
           ...state,
           list: {
@@ -104,7 +104,7 @@ export const TipoRazaReducer = (state = initialState, action) => {
             data: action.data
           },
         }
-      case  "ADD_TIPO_RAZA_FAIL":
+      case  "ADD_MASCOTA_FAIL":
         return {
           ...state,
           list: {
@@ -112,24 +112,24 @@ export const TipoRazaReducer = (state = initialState, action) => {
             error: action.error
           },
         }
-      case  "ADD_TIPO_RAZA_FINISH":
+      case  "ADD_MASCOTA_FINISH":
         return {
           ...state,
           list: {
             ...state.list,
-            loadingtiporaza: false
+            loadingmascota: false
           },
         }
-      case "EDIT_TIPO_RAZA_START":
+      case "EDIT_MASCOTA_START":
         return {
           ...state,
           list: {
             ...state.list,
-            loadingtiporaza: true,
+            loadingmascota: true,
             error: initialState.list.error
           },
         }
-      case "EDIT_TIPO_RAZA_SUCCESS":
+      case "EDIT_MASCOTA_SUCCESS":
         return {
           ...state,
           list: {
@@ -137,7 +137,7 @@ export const TipoRazaReducer = (state = initialState, action) => {
             data: action.data
           },
         }
-      case "EDIT_TIPO_RAZA_FAIL":
+      case "EDIT_MASCOTA_FAIL":
         return {
           ...state,
           list: {
@@ -145,50 +145,15 @@ export const TipoRazaReducer = (state = initialState, action) => {
             error: action.error
           },
         }
-      case "EDIT_TIPO_RAZA_FINISH":
+      case "EDIT_MASCOTA_FINISH":
         return {
           ...state,
           list: {
             ...state.list,
-            loadingtiporaza: false
+            loadingmascota: false
           },
         }
 
-        case "GET_TIPO_RAZA_POR_MASCOTA_START":
-      return {
-        ...state,
-        list: {
-            ...state.list,
-            loadingtiporazapormascota: true,
-            error: initialState.list.error
-          },
-      };
-
-    case "GET_TIPO_RAZA_POR_MASCOTA_SUCCESS":
-      return {
-        ...state,
-        list: {
-            ...state.list,
-            data: action.data
-          },
-      };
-
-    case "GET_TIPO_RAZA_POR_MASCOTA_FAIL":
-      return {
-        ...state,
-        list: {
-            ...state.list,
-            error: action.error
-          },
-      };
-    case "GET_TIPO_RAZA_POR_MASCOTA_FINISH":
-      return {
-        ...state,
-        list: {
-            ...state.list,
-            loadingtiporazapormascota: false
-          },
-      };
 
       
     default:
