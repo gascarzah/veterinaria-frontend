@@ -1,113 +1,113 @@
 
  const initialState = {
-    loadingClientes: false,
-    loadingGetCliente: false,
-    cliente: {},
+    loadingVentas: false,
+    loadingGetVenta: false,
+    venta: {},
     editOk: false,
     addOk: false,
     deleteOk: false,
-    clienteList: [],
+    ventaList: [],
     message: '',
     error: 0,
 
 }
 
-export const ClienteReducer = (state = initialState, action) => {
+export const VentaReducer = (state = initialState, action) => {
 
 
 switch (action.type) {
 
-case "GET_CLIENTES_START":
+case "GET_VENTAS_START":
   return {
     ...state,
-    loadingClientes: true
+    loadingVentas: true
   };
 
-case "GET_CLIENTES_SUCCESS":
+case "GET_VENTAS_SUCCESS":
   return {
     ...state,
-    clienteList: action.data
+    ventaList: action.data
   };
 
-case "GET_CLIENTES_FAIL":
+case "GET_VENTAS_FAIL":
   return {
     ...state,
-    clienteList: null,
+    ventaList: null,
     error: action.error,
     message: action.message
   };
-case "GET_CLIENTES_FINISH":
+case "GET_VENTAS_FINISH":
   return {
     ...state,
-    loadingclientes: false
+    loadingventas: false
   };
 
 
 
-case "GET_CLIENTE_START":
+case "GET_VENTA_START":
  
 return {
   ...state,
-  loadingGetCliente: true,
+  loadingGetVenta: true,
 }
 
-case "GET_CLIENTE_SUCCESS":
+case "GET_VENTA_SUCCESS":
   
   return {
     ...state,
-    cliente: action.data,
+    venta: action.data,
   };
 
-case "GET_CLIENTE_FAIL":
+case "GET_VENTA_FAIL":
   return {
     ...state,
-    clienteList: null,
+    ventaList: null,
     error: action.error,
     message: action.message
   };
-case "GET_CLIENTE_FINISH":
+case "GET_VENTA_FINISH":
   return {
     ...state,
-    loadingGetCliente: false,
+    loadingGetVenta: false,
   };
 
 
-  case "DELETE_CLIENTE_START":
+  case "DELETE_VENTA_START":
     return {
       ...state,
 
-        loadingcliente: true,
+        loadingventa: true,
         
       
     }
-  case "DELETE_CLIENTE_SUCCESS":
+  case "DELETE_VENTA_SUCCESS":
     return {
       ...state,
         addOk: false,
         editOk: false,
         deleteOk: true,
-        clienteList: action.data
+        ventaList: action.data
     }
-  case "DELETE_CLIENTE_FAIL":
+  case "DELETE_VENTA_FAIL":
     return {
       ...state,
         error: action.error,
         message: action.message
     }
-  case "DELETE_CLIENTE_FINISH":
+  case "DELETE_VENTA_FINISH":
     return {
       ...state,
-        loadingcliente: false
+        loadingventa: false
       
     }
-  case  "ADD_CLIENTE_START":
+  case  "ADD_VENTA_START":
     return {
       ...state,
 
-        loadingcliente: true,
+        loadingventa: true,
       
     }
-  case  "ADD_CLIENTE_SUCCESS":
+  case  "ADD_VENTA_SUCCESS":
     return {
       ...state,
 
@@ -116,46 +116,46 @@ case "GET_CLIENTE_FINISH":
       deleteOk: false,
 
     }
-  case  "ADD_CLIENTE_FAIL":
+  case  "ADD_VENTA_FAIL":
     return {
       ...state,
 
         error: action.error,
        message: action.message
     }
-  case  "ADD_CLIENTE_FINISH":
+  case  "ADD_VENTA_FINISH":
     return {
       ...state,
 
-        loadingcliente: false
+        loadingventa: false
     }
-  case "EDIT_CLIENTE_START":
+  case "EDIT_VENTA_START":
     return {
       ...state,
 
-        loadingcliente: true,
+        loadingventa: true,
         
 
     }
-  case "EDIT_CLIENTE_SUCCESS":
+  case "EDIT_VENTA_SUCCESS":
     return {
       ...state,
       addOk: false,
       editOk: action.data,
       deleteOk: false
     }
-  case "EDIT_CLIENTE_FAIL":
+  case "EDIT_VENTA_FAIL":
     return {
       ...state,
 
         error: action.error,
         message: action.message
     }
-  case "EDIT_CLIENTE_FINISH":
+  case "EDIT_VENTA_FINISH":
     return {
       ...state,
 
-        loadingcliente: false
+        loadingventa: false
 
     }
     case 'CLEAR_MESSAGE_NOTIFICATION':

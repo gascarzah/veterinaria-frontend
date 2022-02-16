@@ -16,24 +16,7 @@ const headCells = [
       disablePadding: false,
       label: "Nombre",
     },
-    {
-      id: "tipoMascota",
-      numeric: false,
-      disablePadding: false,
-      label: "Tipo de Mascota",
-    },
-    {
-      id: "tipoRaza",
-      numeric: false,
-      disablePadding: false,
-      label: "Tipo de Raza",
-    },
-    {
-      id: "peso",
-      numeric: false,
-      disablePadding: false,
-      label: "Peso",
-    },
+   
 
    
   ];

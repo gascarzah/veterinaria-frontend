@@ -1,27 +1,28 @@
-import { AccountCircle, RowingTwoTone } from "@mui/icons-material";
+
 import {
-  Avatar,
+
   Button,
-  CircularProgress,
+
   Container,
   CssBaseline,
   FormHelperText,
   InputLabel,
-  listClasses,
+
   MenuItem,
   Select,
   TextField,
-  Typography,
+
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {actualizarMascota, crearMascota,
+import {actualizarMascota, crearMascota, 
 } from "../../../redux/actions/Mascota";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import { getTodoTiposMascota } from "../../../redux/actions/TipoMascota";
 import { getRazaPorTipoMascota } from "../../../redux/actions/TipoRaza";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = {
   paper: {
@@ -46,14 +47,6 @@ const useStyles = {
   },
 };
 
-const initialValues1 = {
-  idMascota: '',
-  nombre: '',
-  peso: '',
-  sexo: '',
-  idTipoMascota: '',
-  idTipoRaza: ''
-};
 
 const validationSchema = Yup.object({
   nombre: Yup.string().required("El titulo es Obligatorio"),
@@ -61,38 +54,34 @@ const validationSchema = Yup.object({
   sexo: Yup.string().required("Sexo es Obligatorio"),
   idTipoMascota: Yup.string().required("Tipo mascota es Obligatorio"),
   idTipoRaza: Yup.string().required("Tipo raza es Obligatorio"),
+  // tipoMascota: Yup.object().required("Mascota es Obligatorio"),
 });
 
 
 
 const MascotaForm = ({ editar = false, mascota }) => {
-  console.log('mascotaform')
-  console.log(mascota)
   const state = useSelector((state) => state)
-  const {mascotaReducer} = state
-  const {list} = mascotaReducer
-  const {loading} = list
   const {tiposMascota} = state
   const {tiposRaza} = state
+  const {mascotaReducer} = state
 
   const [mascotas, setMascotas] = useState([]);
   const [razas, setRazas] = useState([]);
-  const [initialValues, setInitialValues] = useState(editar? {
-    idMascota: mascota.idMascota,
-    nombre: mascota.nombre,
-    peso: mascota.peso,
-    sexo: mascota.sexo,
-    idTipoMascota: mascota.tipoRaza.tipoMascota.idTipoMascota,
-    idTipoRaza: mascota.tipoRaza.idTipoRaza
-  } : initialValues1)
+  const [initialValues, setInitialValues] = useState(mascota)
 
-  console.log('state')
-  console.log(state)
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+
+  const loadData = () => {
+    if(editar){
+    dispatch(getRazaPorTipoMascota(mascota.idTipoMascota))
+  }
+    dispatch(getTodoTiposMascota())
+  }
 
   useEffect(() => {
-    dispatch(getTodoTiposMascota())
-
+    loadData()
    }, []);
 
    useEffect(() => {
@@ -101,20 +90,11 @@ const MascotaForm = ({ editar = false, mascota }) => {
 
 
    useEffect(() => {
-    console.log('effect tiposrazas')
-    console.log(tiposRaza.list.data)
-    
     setRazas(tiposRaza.list.data)
   }, [tiposRaza.list.data]);
 
-   
+  
 
-  useEffect(() => {
-    if(editar ){
-      console.log('effect tiposrazas sdaada')
-      razaPorTipoMascota(mascota.tipoRaza.tipoMascota.idTipoMascota)
-    }
-   }, [editar]);
 
   const ejecutar = (valores) => {
     const itemTipoMascota =  mascotas.filter((item) => {
@@ -130,14 +110,22 @@ const MascotaForm = ({ editar = false, mascota }) => {
     const tipoMascota = itemTipoMascota[0]
     const tipoRaza = itemTipoRaza[0]
 
-
     if (editar) {
-      dispatch(actualizarMascota({ ...valores,tipoMascota,tipoRaza }));
+      dispatch(actualizarMascota({ ...valores,tipoMascota,tipoRaza, navigate }));
     } else {
-      dispatch(crearMascota({ ...valores,tipoMascota,tipoRaza }));
+      dispatch(crearMascota({ ...valores,tipoMascota,tipoRaza, navigate }));
     }
-   
-    // cerrarModalInsertar();
+
+    setTimeout(() => {
+      dispatch({
+        type: 'CLEAR_MESSAGE_NOTIFICATION',
+      });
+      // resetForm();
+      // if (errors) {
+        navigate('/list-mascotas');
+      // }
+    }, 1500);
+    
   };
 
 
@@ -149,7 +137,14 @@ const MascotaForm = ({ editar = false, mascota }) => {
   return (
     <Container component="main" maxWidth="xs" style={useStyles.paper}>
       <CssBaseline />
+      {/* {console.log('mascotas')}
+      {console.log(mascotas)}
+      {console.log('razas')}
+      {console.log(razas)} */}
+
+      {mascotas && mascotas.length > 0 && (
       <div>
+        
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -160,9 +155,7 @@ const MascotaForm = ({ editar = false, mascota }) => {
         >
           {(props) => (
             <form onSubmit={props.handleSubmit}>
-            {/* {console.log('antes de props')
-            }
-            {console.log(props)} */}
+       
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -192,9 +185,8 @@ const MascotaForm = ({ editar = false, mascota }) => {
                 error={props.touched.peso && Boolean(props.errors.peso)}
                 helperText={props.touched.peso && props.errors.peso}
               />
-              {/* {console.log('props')}
-     {console.log(props)} */}
-     <InputLabel id="idTipoMascota">Sexo</InputLabel>
+
+     <InputLabel id="idSexo">Sexo</InputLabel>
      <Select
           style={{ width: "100%" }}
           variant="outlined"
@@ -219,7 +211,6 @@ const MascotaForm = ({ editar = false, mascota }) => {
                 </FormHelperText>
                 }
 
-
         <InputLabel id="idTipoMascota">Tipo Mascota</InputLabel>
         <Select
         style={{ width: "100%" }}
@@ -234,20 +225,16 @@ const MascotaForm = ({ editar = false, mascota }) => {
           error={props.touched.idTipoMascota && Boolean(props.errors.idTipoMascota)}
           onChange={async e => {
             const { value } = e.target;
-            // console.log(value)
             props.setFieldValue('idTipoMascota', value)
             razaPorTipoMascota(value)
-            // const _regions = await getRegions(value);
-            // console.log(_regions);
-            // setFieldValue("country", value);
-            // setFieldValue("region", "");
-            // setFieldValue("regions", _regions);
           }}
+          defaultValue=''
         >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          {mascotas && mascotas.length > 0 && mascotas.map((item, index) => {
+          
+          {  mascotas.map((item, index) => {
                   return (
                     <MenuItem
                       key={item.idTipoMascota}
@@ -283,9 +270,8 @@ const MascotaForm = ({ editar = false, mascota }) => {
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          {console.log('razas')}
-           { console.log(razas)}
-          {razas && razas.length > 0 && razas.map((item, index) => {
+
+          { razas && razas.length > 0 && razas.map((item, index) => {
             
                   return (
                     <MenuItem
@@ -309,18 +295,20 @@ const MascotaForm = ({ editar = false, mascota }) => {
                 fullWidth
                 variant="contained"
                 color="primary"
-                endIcon={
-                  loading ?(
-                    <CircularProgress size={20} />
-                  ): null
-                }
+                // endIcon={
+                //   loading ?(
+                //     <CircularProgress size={20} />
+                //   ): null
+                // }
               >
                 {editar ? "Editar" : "Crear"}
               </Button>
             </form>
           )}
         </Formik>
+        
       </div>
+    )}
     </Container>
   );
 };

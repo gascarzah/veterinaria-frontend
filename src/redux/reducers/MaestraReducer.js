@@ -1,113 +1,113 @@
 
  const initialState = {
-    loadingClientes: false,
-    loadingGetCliente: false,
-    cliente: {},
+    loadingMaestras: false,
+    loadingGetMaestra: false,
+    maestra: {},
     editOk: false,
     addOk: false,
     deleteOk: false,
-    clienteList: [],
+    maestraList: [],
     message: '',
     error: 0,
 
 }
 
-export const ClienteReducer = (state = initialState, action) => {
+export const MaestraReducer = (state = initialState, action) => {
 
 
 switch (action.type) {
 
-case "GET_CLIENTES_START":
+case "GET_MAESTRAS_START":
   return {
     ...state,
-    loadingClientes: true
+    loadingMaestras: true
   };
 
-case "GET_CLIENTES_SUCCESS":
+case "GET_MAESTRAS_SUCCESS":
   return {
     ...state,
-    clienteList: action.data
+    maestraList: action.data
   };
 
-case "GET_CLIENTES_FAIL":
+case "GET_MAESTRAS_FAIL":
   return {
     ...state,
-    clienteList: null,
+    maestraList: null,
     error: action.error,
     message: action.message
   };
-case "GET_CLIENTES_FINISH":
+case "GET_MAESTRAS_FINISH":
   return {
     ...state,
-    loadingclientes: false
+    loadingmaestras: false
   };
 
 
 
-case "GET_CLIENTE_START":
+case "GET_MAESTRA_START":
  
 return {
   ...state,
-  loadingGetCliente: true,
+  loadingGetMaestra: true,
 }
 
-case "GET_CLIENTE_SUCCESS":
+case "GET_MAESTRA_SUCCESS":
   
   return {
     ...state,
-    cliente: action.data,
+    maestra: action.data,
   };
 
-case "GET_CLIENTE_FAIL":
+case "GET_MAESTRA_FAIL":
   return {
     ...state,
-    clienteList: null,
+    maestraList: null,
     error: action.error,
     message: action.message
   };
-case "GET_CLIENTE_FINISH":
+case "GET_MAESTRA_FINISH":
   return {
     ...state,
-    loadingGetCliente: false,
+    loadingGetMaestra: false,
   };
 
 
-  case "DELETE_CLIENTE_START":
+  case "DELETE_MAESTRA_START":
     return {
       ...state,
 
-        loadingcliente: true,
+        loadingmaestra: true,
         
       
     }
-  case "DELETE_CLIENTE_SUCCESS":
+  case "DELETE_MAESTRA_SUCCESS":
     return {
       ...state,
         addOk: false,
         editOk: false,
         deleteOk: true,
-        clienteList: action.data
+        maestraList: action.data
     }
-  case "DELETE_CLIENTE_FAIL":
+  case "DELETE_MAESTRA_FAIL":
     return {
       ...state,
         error: action.error,
         message: action.message
     }
-  case "DELETE_CLIENTE_FINISH":
+  case "DELETE_MAESTRA_FINISH":
     return {
       ...state,
-        loadingcliente: false
+        loadingmaestra: false
       
     }
-  case  "ADD_CLIENTE_START":
+  case  "ADD_MAESTRA_START":
     return {
       ...state,
 
-        loadingcliente: true,
+        loadingmaestra: true,
       
     }
-  case  "ADD_CLIENTE_SUCCESS":
+  case  "ADD_MAESTRA_SUCCESS":
     return {
       ...state,
 
@@ -116,46 +116,46 @@ case "GET_CLIENTE_FINISH":
       deleteOk: false,
 
     }
-  case  "ADD_CLIENTE_FAIL":
+  case  "ADD_MAESTRA_FAIL":
     return {
       ...state,
 
         error: action.error,
        message: action.message
     }
-  case  "ADD_CLIENTE_FINISH":
+  case  "ADD_MAESTRA_FINISH":
     return {
       ...state,
 
-        loadingcliente: false
+        loadingmaestra: false
     }
-  case "EDIT_CLIENTE_START":
+  case "EDIT_MAESTRA_START":
     return {
       ...state,
 
-        loadingcliente: true,
+        loadingmaestra: true,
         
 
     }
-  case "EDIT_CLIENTE_SUCCESS":
+  case "EDIT_MAESTRA_SUCCESS":
     return {
       ...state,
       addOk: false,
       editOk: action.data,
       deleteOk: false
     }
-  case "EDIT_CLIENTE_FAIL":
+  case "EDIT_MAESTRA_FAIL":
     return {
       ...state,
 
         error: action.error,
         message: action.message
     }
-  case "EDIT_CLIENTE_FINISH":
+  case "EDIT_MAESTRA_FINISH":
     return {
       ...state,
 
-        loadingcliente: false
+        loadingmaestra: false
 
     }
     case 'CLEAR_MESSAGE_NOTIFICATION':

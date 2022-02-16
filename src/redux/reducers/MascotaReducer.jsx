@@ -1,159 +1,169 @@
 
  const initialState = {
-    list: {
-        loadingmascota: false,
-        data: null,
-        mensaje: '',
-        error: {
-          error: false,
-          message: ''
-        }
-  
-    }
+        loadingMascotas: false,
+        loadingGetMascota: false,
+        mascota: {},
+        editOk: false,
+        addOk: false,
+        deleteOk: false,
+        mascotaList: [],
+        message: '',
+        error: 0,
+
 }
 
 export const MascotaReducer = (state = initialState, action) => {
    
-      
+    
   switch (action.type) {
-    case "GET_MASCOTA_START":
+
+    case "GET_MASCOTAS_START":
       return {
         ...state,
-        list: {
-            ...state.list,
-            loadingmascota: true,
-            error: initialState.list.error
-          },
+        loadingMascotas: true
       };
 
-    case "GET_MASCOTA_SUCCESS":
+    case "GET_MASCOTAS_SUCCESS":
       return {
         ...state,
-        list: {
-            ...state.list,
-            data: action.data
-          },
+        mascotaList: action.data
+      };
+
+    case "GET_MASCOTAS_FAIL":
+      return {
+        ...state,
+        mascotaList: null,
+        error: action.error,
+        message: action.message
+      };
+    case "GET_MASCOTAS_FINISH":
+      return {
+        ...state,
+        loadingmascotas: false
+      };
+
+
+
+    case "GET_MASCOTA_START":
+     
+    return {
+      ...state,
+      loadingGetMascota: true,
+    }
+
+    case "GET_MASCOTA_SUCCESS":
+      
+      return {
+        ...state,
+        mascota: action.data,
       };
 
     case "GET_MASCOTA_FAIL":
       return {
         ...state,
-        list: {
-            ...state.list,
-            error: action.error
-          },
+        mascotaList: null,
+        error: action.error,
+        message: action.message
       };
     case "GET_MASCOTA_FINISH":
       return {
         ...state,
-        list: {
-            ...state.list,
-            loadingmascota: false
-          },
+        loadingGetMascota: false,
       };
 
 
       case "DELETE_MASCOTA_START":
         return {
           ...state,
-          list: {
-            ...state.list,
+
             loadingmascota: true,
-            error: initialState.list.error
-          },
+            
+          
         }
       case "DELETE_MASCOTA_SUCCESS":
         return {
           ...state,
-          list: {
-            ...state.list,
-            data: action.data,
-            mensaje: 'satisfactoriamente'
-          },
+            addOk: false,
+            editOk: false,
+            deleteOk: true,
+            mascotaList: action.data
         }
       case "DELETE_MASCOTA_FAIL":
         return {
           ...state,
-          list: {
-            ...state.list,
-            error: action.error
-          },
+            error: action.error,
+            message: action.message
         }
       case "DELETE_MASCOTA_FINISH":
         return {
           ...state,
-          list: {
-            ...state.list,
             loadingmascota: false
-          },
+          
         }
       case  "ADD_MASCOTA_START":
         return {
           ...state,
-          list: {
-            ...state.list,
+
             loadingmascota: true,
-            error: initialState.list.error
-          },
+          
         }
       case  "ADD_MASCOTA_SUCCESS":
         return {
           ...state,
-          list: {
-            ...state.list,
-            data: action.data
-          },
+
+          addOk: action.data,
+          editOk: false,
+          deleteOk: false,
+
         }
       case  "ADD_MASCOTA_FAIL":
         return {
           ...state,
-          list: {
-            ...state.list,
-            error: action.error
-          },
+ 
+            error: action.error,
+           message: action.message
         }
       case  "ADD_MASCOTA_FINISH":
         return {
           ...state,
-          list: {
-            ...state.list,
+
             loadingmascota: false
-          },
         }
       case "EDIT_MASCOTA_START":
         return {
           ...state,
-          list: {
-            ...state.list,
+
             loadingmascota: true,
-            error: initialState.list.error
-          },
+            
+  
         }
       case "EDIT_MASCOTA_SUCCESS":
         return {
           ...state,
-          list: {
-            ...state.list,
-            data: action.data
-          },
+          addOk: false,
+          editOk: action.data,
+          deleteOk: false
         }
       case "EDIT_MASCOTA_FAIL":
         return {
           ...state,
-          list: {
-            ...state.list,
-            error: action.error
-          },
+
+            error: action.error,
+            message: action.message
         }
       case "EDIT_MASCOTA_FINISH":
         return {
           ...state,
-          list: {
-            ...state.list,
-            loadingmascota: false
-          },
-        }
 
+            loadingmascota: false
+  
+        }
+        case 'CLEAR_MESSAGE_NOTIFICATION':
+          return {
+            ...state,
+            message: null,
+            // messageLogin: null,
+          };
 
       
     default:

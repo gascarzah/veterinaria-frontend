@@ -1,113 +1,113 @@
 
  const initialState = {
-    loadingClientes: false,
-    loadingGetCliente: false,
-    cliente: {},
+    loadingEmpleados: false,
+    loadingGetEmpleado: false,
+    empleado: {},
     editOk: false,
     addOk: false,
     deleteOk: false,
-    clienteList: [],
+    empleadoList: [],
     message: '',
     error: 0,
 
 }
 
-export const ClienteReducer = (state = initialState, action) => {
+export const EmpleadoReducer = (state = initialState, action) => {
 
 
 switch (action.type) {
 
-case "GET_CLIENTES_START":
+case "GET_EMPLEADOS_START":
   return {
     ...state,
-    loadingClientes: true
+    loadingEmpleados: true
   };
 
-case "GET_CLIENTES_SUCCESS":
+case "GET_EMPLEADOS_SUCCESS":
   return {
     ...state,
-    clienteList: action.data
+    empleadoList: action.data
   };
 
-case "GET_CLIENTES_FAIL":
+case "GET_EMPLEADOS_FAIL":
   return {
     ...state,
-    clienteList: null,
+    empleadoList: null,
     error: action.error,
     message: action.message
   };
-case "GET_CLIENTES_FINISH":
+case "GET_EMPLEADOS_FINISH":
   return {
     ...state,
-    loadingclientes: false
+    loadingempleados: false
   };
 
 
 
-case "GET_CLIENTE_START":
+case "GET_EMPLEADO_START":
  
 return {
   ...state,
-  loadingGetCliente: true,
+  loadingGetEmpleado: true,
 }
 
-case "GET_CLIENTE_SUCCESS":
+case "GET_EMPLEADO_SUCCESS":
   
   return {
     ...state,
-    cliente: action.data,
+    empleado: action.data,
   };
 
-case "GET_CLIENTE_FAIL":
+case "GET_EMPLEADO_FAIL":
   return {
     ...state,
-    clienteList: null,
+    empleadoList: null,
     error: action.error,
     message: action.message
   };
-case "GET_CLIENTE_FINISH":
+case "GET_EMPLEADO_FINISH":
   return {
     ...state,
-    loadingGetCliente: false,
+    loadingGetEmpleado: false,
   };
 
 
-  case "DELETE_CLIENTE_START":
+  case "DELETE_EMPLEADO_START":
     return {
       ...state,
 
-        loadingcliente: true,
+        loadingempleado: true,
         
       
     }
-  case "DELETE_CLIENTE_SUCCESS":
+  case "DELETE_EMPLEADO_SUCCESS":
     return {
       ...state,
         addOk: false,
         editOk: false,
         deleteOk: true,
-        clienteList: action.data
+        empleadoList: action.data
     }
-  case "DELETE_CLIENTE_FAIL":
+  case "DELETE_EMPLEADO_FAIL":
     return {
       ...state,
         error: action.error,
         message: action.message
     }
-  case "DELETE_CLIENTE_FINISH":
+  case "DELETE_EMPLEADO_FINISH":
     return {
       ...state,
-        loadingcliente: false
+        loadingempleado: false
       
     }
-  case  "ADD_CLIENTE_START":
+  case  "ADD_EMPLEADO_START":
     return {
       ...state,
 
-        loadingcliente: true,
+        loadingempleado: true,
       
     }
-  case  "ADD_CLIENTE_SUCCESS":
+  case  "ADD_EMPLEADO_SUCCESS":
     return {
       ...state,
 
@@ -116,46 +116,46 @@ case "GET_CLIENTE_FINISH":
       deleteOk: false,
 
     }
-  case  "ADD_CLIENTE_FAIL":
+  case  "ADD_EMPLEADO_FAIL":
     return {
       ...state,
 
         error: action.error,
        message: action.message
     }
-  case  "ADD_CLIENTE_FINISH":
+  case  "ADD_EMPLEADO_FINISH":
     return {
       ...state,
 
-        loadingcliente: false
+        loadingempleado: false
     }
-  case "EDIT_CLIENTE_START":
+  case "EDIT_EMPLEADO_START":
     return {
       ...state,
 
-        loadingcliente: true,
+        loadingempleado: true,
         
 
     }
-  case "EDIT_CLIENTE_SUCCESS":
+  case "EDIT_EMPLEADO_SUCCESS":
     return {
       ...state,
       addOk: false,
       editOk: action.data,
       deleteOk: false
     }
-  case "EDIT_CLIENTE_FAIL":
+  case "EDIT_EMPLEADO_FAIL":
     return {
       ...state,
 
         error: action.error,
         message: action.message
     }
-  case "EDIT_CLIENTE_FINISH":
+  case "EDIT_EMPLEADO_FINISH":
     return {
       ...state,
 
-        loadingcliente: false
+        loadingempleado: false
 
     }
     case 'CLEAR_MESSAGE_NOTIFICATION':

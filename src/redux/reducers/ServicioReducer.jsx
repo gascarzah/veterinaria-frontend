@@ -1,113 +1,113 @@
 
  const initialState = {
-    loadingClientes: false,
-    loadingGetCliente: false,
-    cliente: {},
+    loadingServicios: false,
+    loadingGetServicio: false,
+    servicio: {},
     editOk: false,
     addOk: false,
     deleteOk: false,
-    clienteList: [],
+    servicioList: [],
     message: '',
     error: 0,
 
 }
 
-export const ClienteReducer = (state = initialState, action) => {
+export const ServicioReducer = (state = initialState, action) => {
 
 
 switch (action.type) {
 
-case "GET_CLIENTES_START":
+case "GET_SERVICIOS_START":
   return {
     ...state,
-    loadingClientes: true
+    loadingServicios: true
   };
 
-case "GET_CLIENTES_SUCCESS":
+case "GET_SERVICIOS_SUCCESS":
   return {
     ...state,
-    clienteList: action.data
+    servicioList: action.data
   };
 
-case "GET_CLIENTES_FAIL":
+case "GET_SERVICIOS_FAIL":
   return {
     ...state,
-    clienteList: null,
+    servicioList: null,
     error: action.error,
     message: action.message
   };
-case "GET_CLIENTES_FINISH":
+case "GET_SERVICIOS_FINISH":
   return {
     ...state,
-    loadingclientes: false
+    loadingservicios: false
   };
 
 
 
-case "GET_CLIENTE_START":
+case "GET_SERVICIO_START":
  
 return {
   ...state,
-  loadingGetCliente: true,
+  loadingGetServicio: true,
 }
 
-case "GET_CLIENTE_SUCCESS":
+case "GET_SERVICIO_SUCCESS":
   
   return {
     ...state,
-    cliente: action.data,
+    servicio: action.data,
   };
 
-case "GET_CLIENTE_FAIL":
+case "GET_SERVICIO_FAIL":
   return {
     ...state,
-    clienteList: null,
+    servicioList: null,
     error: action.error,
     message: action.message
   };
-case "GET_CLIENTE_FINISH":
+case "GET_SERVICIO_FINISH":
   return {
     ...state,
-    loadingGetCliente: false,
+    loadingGetServicio: false,
   };
 
 
-  case "DELETE_CLIENTE_START":
+  case "DELETE_SERVICIO_START":
     return {
       ...state,
 
-        loadingcliente: true,
+        loadingservicio: true,
         
       
     }
-  case "DELETE_CLIENTE_SUCCESS":
+  case "DELETE_SERVICIO_SUCCESS":
     return {
       ...state,
         addOk: false,
         editOk: false,
         deleteOk: true,
-        clienteList: action.data
+        servicioList: action.data
     }
-  case "DELETE_CLIENTE_FAIL":
+  case "DELETE_SERVICIO_FAIL":
     return {
       ...state,
         error: action.error,
         message: action.message
     }
-  case "DELETE_CLIENTE_FINISH":
+  case "DELETE_SERVICIO_FINISH":
     return {
       ...state,
-        loadingcliente: false
+        loadingservicio: false
       
     }
-  case  "ADD_CLIENTE_START":
+  case  "ADD_SERVICIO_START":
     return {
       ...state,
 
-        loadingcliente: true,
+        loadingservicio: true,
       
     }
-  case  "ADD_CLIENTE_SUCCESS":
+  case  "ADD_SERVICIO_SUCCESS":
     return {
       ...state,
 
@@ -116,46 +116,46 @@ case "GET_CLIENTE_FINISH":
       deleteOk: false,
 
     }
-  case  "ADD_CLIENTE_FAIL":
+  case  "ADD_SERVICIO_FAIL":
     return {
       ...state,
 
         error: action.error,
        message: action.message
     }
-  case  "ADD_CLIENTE_FINISH":
+  case  "ADD_SERVICIO_FINISH":
     return {
       ...state,
 
-        loadingcliente: false
+        loadingservicio: false
     }
-  case "EDIT_CLIENTE_START":
+  case "EDIT_SERVICIO_START":
     return {
       ...state,
 
-        loadingcliente: true,
+        loadingservicio: true,
         
 
     }
-  case "EDIT_CLIENTE_SUCCESS":
+  case "EDIT_SERVICIO_SUCCESS":
     return {
       ...state,
       addOk: false,
       editOk: action.data,
       deleteOk: false
     }
-  case "EDIT_CLIENTE_FAIL":
+  case "EDIT_SERVICIO_FAIL":
     return {
       ...state,
 
         error: action.error,
         message: action.message
     }
-  case "EDIT_CLIENTE_FINISH":
+  case "EDIT_SERVICIO_FINISH":
     return {
       ...state,
 
-        loadingcliente: false
+        loadingservicio: false
 
     }
     case 'CLEAR_MESSAGE_NOTIFICATION':

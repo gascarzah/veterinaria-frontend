@@ -8,35 +8,7 @@ import {
   } from "@mui/material";
   import React from "react";
   import { visuallyHidden } from "@mui/utils";
-const headCells = [
 
-    {
-      id: "nombre",
-      numeric: false,
-      disablePadding: false,
-      label: "Nombre",
-    },
-    {
-      id: "tipoMascota",
-      numeric: false,
-      disablePadding: false,
-      label: "Tipo de Mascota",
-    },
-    {
-      id: "tipoRaza",
-      numeric: false,
-      disablePadding: false,
-      label: "Tipo de Raza",
-    },
-    {
-      id: "peso",
-      numeric: false,
-      disablePadding: false,
-      label: "Peso",
-    },
-
-   
-  ];
   const TablaHeader = (props) => {
     const {
       onSelectAllClick,
@@ -45,6 +17,7 @@ const headCells = [
       numSelected,
       rowCount,
       onRequestSort,
+      headCells
     } = props;
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);

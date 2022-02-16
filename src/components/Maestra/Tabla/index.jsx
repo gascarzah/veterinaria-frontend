@@ -18,17 +18,28 @@ import {
   } from "@mui/material";
   import { Box } from "@mui/system";
   import React, { useEffect, useState } from "react";
-  import TablaHeader from "./TablaHeader";
-  import { useDispatch, useSelector } from "react-redux";
-
   
-  import {
-    eliminarTipoMascota,
-    getTiposMascota,
-  } from "../../../redux/actions/TipoMascota";
-  import TipoMascotaForm from "../form";
+  import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-  function stableSort(array, comparator) {
+  import { getMaestras, eliminarMaestra, getMaestra } from "../../../redux/actions/Maestra";
+import TablaHeader from "../../TablaHeader";
+  
+
+  const headCells = [
+
+    {
+      id: "nombre",
+      numeric: false,
+      disablePadding: false,
+      label: "Nombre",
+    },
+   
+
+   
+  ];
+
+  const stableSort= (array, comparator) => {
     // console.log(array)
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
@@ -41,7 +52,7 @@ import {
     return stabilizedThis.map((el) => el[0]);
   }
   
-  function descendingComparator(a, b, orderBy) {
+  const descendingComparator = (a, b, orderBy) => {
     if (b[orderBy] < a[orderBy]) {
       return -1;
     }
@@ -51,7 +62,7 @@ import {
     return 0;
   }
   
-  function getComparator(order, orderBy) {
+  const getComparator = (order, orderBy) => {
     return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
@@ -59,12 +70,14 @@ import {
   
   
   
-  const TablaTipoMascota = () => {
+  const ListaMaestra = (codigo) => {
     const state = useSelector((state) => state);
-    const { tiposMascota } = state;
-    const { list } = tiposMascota;
+    const { maestraReducer } = state;
+    const { maestraList }= maestraReducer
+
+    const [count, setCount] = useState(0)
     const [order, setOrder] = useState("asc");
-    const [orderBy, setOrderBy] = useState("idTipoMascota");
+    const [orderBy, setOrderBy] = useState("idTipoMaestra");
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     // const [dense, setDense] = useState(false);
@@ -75,7 +88,7 @@ import {
     const [rows, setRows] = useState([]);
   
     const [modalInsertar, setModalInsertar] = useState(false);
-    const [modalEditar, setModalEditar] = useState(false);
+
     const [modalEliminar, setModalEliminar] = useState(false);
     const [editar, setEditar] = useState(false);
     const [mensaje, setMensaje] = useState("");
@@ -84,17 +97,21 @@ import {
   
     const dispatch = useDispatch();
   
-    useEffect(() => {
-    //   console.log(state)
-      setRows(list.data?.content);
-      setDatos(list.data?.content);
-      setPage(list.data?.number);
-    }, [list.data?.content]);
   
     useEffect(() => {
-      dispatch(getTiposMascota(page, rowsPerPage));
-    }, []);
-  
+ 
+        if(maestraList?.content){
+        setRows(maestraList.content);
+        setDatos(maestraList.content);
+        setPage(maestraList.number);
+        setCount(maestraList.totalElements)
+      }
+      }, [maestraList?.content]);
+    
+      useEffect(() => {
+        dispatch(getMaestras(codigo, page, rowsPerPage));
+      }, []);
+      
     const handleRequestSort = (event, property) => {
       const isAsc = orderBy === property && order === "asc";
       setOrder(isAsc ? "desc" : "asc");
@@ -103,7 +120,7 @@ import {
   
     const handleSelectAllClick = (event) => {
       if (event.target.checked) {
-        const newSelecteds = list.data.content.content.map((n) => n.idTipoMascota);
+        const newSelecteds = maestraList.content.content.map((n) => n.idMaestra);
         setSelected(newSelecteds);
         return;
       }
@@ -132,13 +149,13 @@ import {
   
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
-      dispatch(getTiposMascota(newPage, rowsPerPage));
+      dispatch(getMaestras(newPage, rowsPerPage));
     };
   
     const handleChangeRowsPerPage = (event) => {
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
-      dispatch(getTiposMascota(0, event.target.value));
+      dispatch(getMaestra(0, event.target.value));
     };
   
     // const handleChangeDense = (event) => {
@@ -176,7 +193,7 @@ import {
       setEditar(false);
       setModalInsertar(true);
       setData({
-        idTipoMascota: null,
+        idTipoMaestra: null,
         nombre: "",
         descripcion: "",
       });
@@ -185,21 +202,7 @@ import {
     const cerrarModalInsertar = () => {
       setModalInsertar(false);
     };
-  
-    // const handleDelete = (id) => {
-    //   if (rows.length === 1) {
-    //     let update = page - 1;
-    //     if (update < 0) {
-    //       update = 0;
-    //     }
-  
-    //     setPage(update);
-    //     dispatch(eliminarTipoMascota(id, update, rowsPerPage));
-    //   } else {
-    //     dispatch(eliminarTipoMascota(id, page, rowsPerPage));
-    //   }
-    // };
-  
+ 
     const handleDelete = () => {
       if (rows.length === 1) {
         let update = page - 1;
@@ -208,9 +211,9 @@ import {
         }
         
         setPage(update);
-        dispatch(eliminarTipoMascota(data.idTipoMascota, update, rowsPerPage));
+        dispatch(eliminarMaestra(data.idTipoMaestra, update, rowsPerPage));
       } else {
-        dispatch(eliminarTipoMascota(data.idTipoMascota, page, rowsPerPage));
+        dispatch(eliminarMaestra(data.idTipoMaestra, page, rowsPerPage));
       }
       
       cerrarModalEliminar()
@@ -245,19 +248,21 @@ import {
           autoComplete="off"
         >
           <TextField
-            placeholder="Buscar Tipo Mascota"
+            placeholder="Buscar Tipo Maestra"
             variant="standard"
             name="searched"
             value={searched}
             onChange={handleFilterSearch}
           />
-          <Button size="small" color="primary" onClick={() => handleOpenInsert()}>
-            Agregar
-          </Button>
+          <Button size="small" color="primary" 
+        component={Link}
+        to='/crear-maestra'>
+          Agregar
+        </Button>
         </Box>
   
-        {!list.data && <CircularProgress color="inherit" />}
-        {list.data && rows?.length > 0 && (
+        {!maestraList && <CircularProgress color="inherit" />}
+        {maestraList && rows?.length > 0 && (
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 550 }} aria-label="simple table">
               <TablaHeader
@@ -267,6 +272,7 @@ import {
                 onSelectAllClick={handleSelectAllClick}
                 onRequestSort={handleRequestSort}
                 rowCount={rows.length}
+                headCells={headCells}
               />
   
               <TableBody>
@@ -277,10 +283,10 @@ import {
                     return (
                       <TableRow
                         hover
-                        onClick={(event) => handleClick(event, row.idTipoMascota)}
+                        onClick={(event) => handleClick(event, row.idMaestra)}
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.idTipoMascota}
+                        key={row.idMaestra}
                       >
 
                         <TableCell align="left">{row.nombre}</TableCell>
@@ -289,12 +295,14 @@ import {
                           <Button size="small">Ver</Button>
                         </TableCell>
                         <TableCell align="right">
-                          <Button
-                            size="small"
-                            color="primary"
-                            onClick={() => handleOpenEdit(row)}
-                          >
-                            Editar
+                        <Button
+                          size="small"
+                          color="primary"
+                          component={Link}
+                          to={`/maestra/edit/${row.idMaestra}`}
+                        >
+                          Editar
+                       
                           </Button>
                         </TableCell>
                         <TableCell align="right">
@@ -320,33 +328,30 @@ import {
           </TableContainer>
         )}
   
-        {list.data && rows?.length > 0 && (
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={list.data.totalElements}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        )}
+  {rows?.length > 0 && (
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={count}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      )}
   
         <Dialog open={modalInsertar} onClose={cerrarModalInsertar}>
           <DialogTitle>Insertar</DialogTitle>
           <DialogContent>
-            <TipoMascotaForm
+            {/* <TipoMaestraForm
               data={data}
               editar={editar}
               cerrarModalInsertar={cerrarModalInsertar}
               page={page}
               size={rowsPerPage}
-            />
+            /> */}
           </DialogContent>
-          {/* <DialogActions>
-            <Button onClick={cerrarModalInsertar}>Cancel</Button>
-            <Button onClick={cerrarModalInsertar}>Subscribe</Button>
-          </DialogActions> */}
+         
         </Dialog>
   
   
@@ -378,5 +383,5 @@ import {
     );
   };
   
-  export default TablaTipoMascota;
+  export default ListaMaestra;
   

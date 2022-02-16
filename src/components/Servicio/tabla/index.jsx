@@ -1,7 +1,6 @@
 import {
   Alert,
   Button,
-  Checkbox,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -19,43 +18,15 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import TablaHeader from "./TablaHeader";
+
 import { useDispatch, useSelector } from "react-redux";
 
 
-import { makeStyles } from "@mui/styles";
-import {
-  eliminarTipoRaza,
-  getTiposRaza,
-} from "../../../redux/actions/TipoRaza";
-import TipoRazaForm from "../form/index";
+import ServicioForm from "../form";
+import { eliminarServicio, getServicios } from "../../../redux/actions/Servicio";
+import { Link, useNavigate } from "react-router-dom";
+import TablaHeader from "./header";
 
-const headCells = [
-  {
-    id: "idTipoRaza",
-    numeric: false,
-    disablePadding: true,
-    label: "Id Raza",
-  },
-  {
-    id: "tipoMascota",
-    numeric: false,
-    disablePadding: true,
-    label: "Mascota",
-  },
-  {
-    id: "nombre",
-    numeric: false,
-    disablePadding: false,
-    label: "Nombre",
-  },
-  {
-    id: "descripcion",
-    numeric: false,
-    disablePadding: false,
-    label: "Descripcion",
-  }
-];
 function stableSort(array, comparator) {
   // console.log(array)
   const stabilizedThis = array.map((el, index) => [el, index]);
@@ -87,12 +58,14 @@ function getComparator(order, orderBy) {
 
 
 
-const TablaTipoRaza = () => {
+const TablaServicio = () => {
   const state = useSelector((state) => state);
-  const { tiposRaza } = state;
-  const { list } = tiposRaza;
+  
+  const { servicioReducer } = state;
+  console.log(servicioReducer)
+  const { loadingServicios, servicioList } = servicioReducer;
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("idTipoRaza");
+  const [orderBy, setOrderBy] = useState("idServicio");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   // const [dense, setDense] = useState(false);
@@ -101,6 +74,7 @@ const TablaTipoRaza = () => {
   const [datos, setDatos] = useState([]);
   const [data, setData] = useState("");
   const [rows, setRows] = useState([]);
+  const [count, setCount] = useState(0)
 
   const [modalInsertar, setModalInsertar] = useState(false);
   const [modalEditar, setModalEditar] = useState(false);
@@ -111,16 +85,21 @@ const TablaTipoRaza = () => {
 
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
+     
 
   useEffect(() => {
-    // console.log(state)
-    setRows(list.data?.content);
-    setDatos(list.data?.content);
-    setPage(list.data?.number);
-  }, [list.data?.content]);
+ 
+    if(servicioList?.content){
+    setRows(servicioList.content);
+    setDatos(servicioList.content);
+    setPage(servicioList.number);
+    setCount(servicioList.totalElements)
+  }
+  }, [servicioList?.content]);
 
   useEffect(() => {
-    dispatch(getTiposRaza(page, rowsPerPage));
+    dispatch(getServicios(page, rowsPerPage));
   }, []);
 
   const handleRequestSort = (event, property) => {
@@ -131,7 +110,7 @@ const TablaTipoRaza = () => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = list.data.content.content.map((n) => n.idTipoRaza);
+      const newSelecteds = servicioList.content.content.map((n) => n.idServicio);
       setSelected(newSelecteds);
       return;
     }
@@ -160,18 +139,15 @@ const TablaTipoRaza = () => {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    dispatch(getTiposRaza(newPage, rowsPerPage));
+    dispatch(getServicios(newPage, rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    dispatch(getTiposRaza(0, event.target.value));
+    dispatch(getServicios(0, event.target.value));
   };
 
-  // const handleChangeDense = (event) => {
-  //   setDense(event.target.checked);
-  // };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -197,24 +173,15 @@ const TablaTipoRaza = () => {
   const handleOpenEdit = (row) => {
     setEditar(true);
     setModalInsertar(true);
-  
-    setData({
-      idTipoRaza: row.idTipoRaza,
-      nombre: row.nombre,
-      descripcion: row.descripcion,
-      idTipoMascota: row.tipoMascota.idTipoMascota,
-      
-    });
+    setData(row);
   };
 
   const handleOpenInsert = () => {
     setEditar(false);
     setModalInsertar(true);
     setData({
-      idTipoRaza: null,
+      idServicio: null,
       nombre: "",
-      descripcion: "",
-      idTipoMascota: "",
       
     });
   };
@@ -223,37 +190,31 @@ const TablaTipoRaza = () => {
     setModalInsertar(false);
   };
 
-  // const handleDelete = (id) => {
-  //   if (rows.length === 1) {
-  //     let update = page - 1;
-  //     if (update < 0) {
-  //       update = 0;
-  //     }
-
-  //     setPage(update);
-  //     dispatch(eliminarTipoRaza(id, update, rowsPerPage));
-  //   } else {
-  //     dispatch(eliminarTipoRaza(id, page, rowsPerPage));
-  //   }
-  // };
 
   const handleDelete = () => {
+    // console.log('page')
+    // console.log(page)
+    // console.log('rowsPerPage')
+    // console.log(rowsPerPage)
     if (rows.length === 1) {
       let update = page - 1;
       if (update < 0) {
         update = 0;
       }
+
       
       setPage(update);
-      dispatch(eliminarTipoRaza(data.idTipoRaza, update, rowsPerPage));
+      dispatch(eliminarServicio(data.idServicio, update, rowsPerPage));
     } else {
-      dispatch(eliminarTipoRaza(data.idTipoRaza, page, rowsPerPage));
+
+      dispatch(eliminarServicio(data.idServicio, page, rowsPerPage));
     }
     
     cerrarModalEliminar()
     setMensaje("Se elimino correctamente")
     setOpenSnackBar(true)
-  };
+
+      };
 
   const handleOpenDelete = (row) => {
     setModalEliminar(true);
@@ -282,19 +243,21 @@ const TablaTipoRaza = () => {
         autoComplete="off"
       >
         <TextField
-          placeholder="Buscar Tipo Raza"
+          placeholder="Buscar Servicio"
           variant="standard"
           name="searched"
           value={searched}
           onChange={handleFilterSearch}
         />
-        <Button size="small" color="primary" onClick={() => handleOpenInsert()}>
+        <Button size="small" color="primary" 
+        component={Link}
+        to='/crear-servicio'>
           Agregar
         </Button>
       </Box>
 
-      {!list.data && <CircularProgress color="inherit" />}
-      {list.data && rows?.length > 0 && (
+      {!servicioList && <CircularProgress color="inherit" />}
+      {servicioList && rows?.length > 0 && (
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 550 }} aria-label="simple table">
             <TablaHeader
@@ -304,45 +267,26 @@ const TablaTipoRaza = () => {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
-              
             />
 
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.idTipoRaza);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.idTipoRaza)}
+                      onClick={(event) => handleClick(event, row.idServicio)}
                       role="checkbox"
-                      aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.idTipoRaza}
-                      selected={isItemSelected}
+                      key={row.idServicio}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.idTipoRaza}
-                      </TableCell>
-                      <TableCell align="left">{row.tipoMascota.nombre}</TableCell>
+                      {/* {console.log(row)} */}
                       <TableCell align="left">{row.nombre}</TableCell>
-                      <TableCell align="left">{row.descripcion}</TableCell>
+                      {/* <TableCell align="left">{row.tipoRaza.tipoServicio.nombre}</TableCell>
+                      <TableCell align="left">{row.tipoRaza.nombre}</TableCell>
+                      <TableCell align="left">{row.peso}</TableCell> */}
                       <TableCell align="right">
                         <Button size="small">Ver</Button>
                       </TableCell>
@@ -350,7 +294,8 @@ const TablaTipoRaza = () => {
                         <Button
                           size="small"
                           color="primary"
-                          onClick={() => handleOpenEdit(row)}
+                          component={Link}
+                          to={`/servicio/edit/${row.idServicio}`}
                         >
                           Editar
                         </Button>
@@ -378,11 +323,11 @@ const TablaTipoRaza = () => {
         </TableContainer>
       )}
 
-      {list.data && rows?.length > 0 && (
+      {rows?.length > 0 && (
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={list.data.totalElements}
+          count={count}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -393,7 +338,7 @@ const TablaTipoRaza = () => {
       <Dialog open={modalInsertar} onClose={cerrarModalInsertar}>
         <DialogTitle>Insertar</DialogTitle>
         <DialogContent>
-          <TipoRazaForm
+          <ServicioForm
             data={data}
             editar={editar}
             cerrarModalInsertar={cerrarModalInsertar}
@@ -436,4 +381,4 @@ const TablaTipoRaza = () => {
   );
 };
 
-export default TablaTipoRaza;
+export default TablaServicio;

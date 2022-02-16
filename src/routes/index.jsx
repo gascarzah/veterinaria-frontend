@@ -4,16 +4,18 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
-import AgregarCategoriaInsumo from "../pages/CategoriaInsumo/Agregar";
-import EditarCategoriaInsumo from "../pages/CategoriaInsumo/Editar";
 import CategoriaInsumo from "../pages/CategoriaInsumo";
 import TipoRaza from "../pages/TipoRaza";
-import AgregarTipoRaza from "../pages/TipoRaza/Agregar";
-import EditarTipoRaza from "../pages/TipoRaza/Editar";
 import TipoMascota from "../pages/TipoMascota";
 import ListMascota from "../pages/Mascota";
 import AgregarMascota from "../pages/Mascota/Agregar";
 import EditarMascota from "../pages/Mascota/Editar";
+import ListaServicio from "../pages/Servicio";
+import AgregarServicio from "../pages/Servicio/Agregar";
+import EditarServicio from "../pages/Servicio/Editar";
+import TablaMaestra from "../components/Maestra/Tabla";
+import AgregarMaestra from "../pages/Maestra/Agregar";
+import EditarMaestra from "../pages/Maestra/Editar";
 
 const Rutas = () => {
   return (
@@ -66,6 +68,7 @@ const Rutas = () => {
           path="/list-tipo-mascota"
           element={
             <PrivateRoute>
+              
               <TipoMascota />
             </PrivateRoute>
           }
@@ -97,6 +100,37 @@ const Rutas = () => {
           element={
             <PrivateRoute>
               <EditarMascota />
+            </PrivateRoute>
+          }
+        />
+
+
+      {/* servicios */}
+      <Route
+          index
+          path="/list-servicios"
+          element={
+            <PrivateRoute>
+              <ListaServicio />
+            </PrivateRoute>
+          }
+        />
+                <Route
+          index
+          path="/crear-servicio"
+          element={
+            <PrivateRoute>
+              <AgregarServicio />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          index
+          path="/servicio/edit/:id"
+          element={
+            <PrivateRoute>
+              <EditarServicio />
             </PrivateRoute>
           }
         />
