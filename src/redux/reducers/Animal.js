@@ -1,86 +1,86 @@
 const initialState = {
   loadingList: false,
   loadingCrud: false,
-  maestra: {},
+  animal: {},
   editOk: false,
   addOk: false,
   deleteOk: false,
-  maestraList: [],
+  animalList: [],
   messageCrud: null,
 
 };
 
-export const MaestraReducer = (state = initialState, action) => {
+export const AnimalReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_MAESTRAS_START":
+    case "GET_ANIMALS_START":
       return {
         ...state,
         loadingList: true,
       };
 
-    case "GET_MAESTRAS_SUCCESS":
+    case "GET_ANIMALS_SUCCESS":
       return {
         ...state,
-        maestraList: action.data,
+        animalList: action.data,
       };
 
-    case "GET_MAESTRAS_FAIL":
+    case "GET_ANIMALS_FAIL":
       return {
         ...state,
-        maestraList: null,
+        animalList: null,
         messageCrud: {
           code: action.error,
           message: action.message,
         },
       };
-    case "GET_MAESTRAS_FINISH":
+    case "GET_ANIMALS_FINISH":
       return {
         ...state,
         loadingList: false,
       };
 
-    case "GET_MAESTRA_START":
+    case "GET_ANIMAL_START":
       return {
         ...state,
         loadingCrud: true,
       };
 
-    case "GET_MAESTRA_SUCCESS":
+    case "GET_ANIMAL_SUCCESS":
       return {
         ...state,
-        maestra: action.data,
+        animal: action.data,
       };
 
-    case "GET_MAESTRA_FAIL":
+    case "GET_ANIMAL_FAIL":
       return {
         ...state,
-        maestraList: null,
+        animalList: null,
         messageCrud: {
           code: action.error,
           message: action.message,
         },
       };
-    case "GET_MAESTRA_FINISH":
+    case "GET_ANIMAL_FINISH":
       return {
         ...state,
         loadingCrud: false,
       };
 
-    case "DELETE_MAESTRA_START":
+    case "DELETE_ANIMAL_START":
       return {
         ...state,
         loadingCrud: true,
       };
 
-    case "DELETE_MAESTRA_SUCCESS":
+    case "DELETE_ANIMAL_SUCCESS":
       return {
         ...state,
         addOk: false,
         editOk: false,
         deleteOk: true,
-        maestraList: action.data,
+        animalList: action.data,
       };
-    case "DELETE_MAESTRA_FAIL":
+    case "DELETE_ANIMAL_FAIL":
       return {
         ...state,
         messageCrud: {
@@ -88,18 +88,18 @@ export const MaestraReducer = (state = initialState, action) => {
           message: action.message,
         },
       };
-    case "DELETE_MAESTRA_FINISH":
+    case "DELETE_ANIMAL_FINISH":
       return {
         ...state,
         loadingCrud: false,
       };
-    case "ADD_MAESTRA_START":
+    case "ADD_ANIMAL_START":
       return {
         ...state,
 
         loadingCrud: true,
       };
-    case "ADD_MAESTRA_SUCCESS":
+    case "ADD_ANIMAL_SUCCESS":
       return {
         ...state,
 
@@ -111,7 +111,7 @@ export const MaestraReducer = (state = initialState, action) => {
           message: "Elemento Creado Correctamente",
         },
       };
-    case "ADD_MAESTRA_FAIL":
+    case "ADD_ANIMAL_FAIL":
       return {
         ...state,
         messageCrud: {
@@ -119,19 +119,19 @@ export const MaestraReducer = (state = initialState, action) => {
           message: action.message,
         },
       };
-    case "ADD_MAESTRA_FINISH":
+    case "ADD_ANIMAL_FINISH":
       return {
         ...state,
 
         loadingCrud: false,
       };
 
-    case "EDIT_MAESTRA_START":
+    case "EDIT_ANIMAL_START":
       return {
         ...state,
         loadingCrud: true,
       };
-    case "EDIT_MAESTRA_SUCCESS":
+    case "EDIT_ANIMAL_SUCCESS":
       return {
         ...state,
         addOk: false,
@@ -142,7 +142,7 @@ export const MaestraReducer = (state = initialState, action) => {
           message: "Elemento editado Correctamente",
         },
       };
-    case "EDIT_MAESTRA_FAIL":
+    case "EDIT_ANIMAL_FAIL":
       return {
         ...state,
         messageCrud: {
@@ -150,7 +150,7 @@ export const MaestraReducer = (state = initialState, action) => {
           message: action.message,
         },
       };
-    case "EDIT_MAESTRA_FINISH":
+    case "EDIT_ANIMAL_FINISH":
       return {
         ...state,
         loadingCrud: false,

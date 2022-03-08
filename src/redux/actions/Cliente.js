@@ -1,14 +1,14 @@
 
 import axiosClient from "../../config/axios";
 
-export const getEmpleados = (entidad,page, size) => {
+export const getClientes = (entidad,page, size) => {
   return async (dispatch) => {
-    dispatch({ type: "GET_EMPLEADOS_START" });
+    dispatch({ type: "GET_CLIENTES_START" });
     try {
       const user = JSON.parse(sessionStorage.getItem('user'))
       const token = user.access_token
-      // const response = await axiosClient.get(`api/empleados/pageable?page=${page}&size=${size}`);
-      const response = await axiosClient.get(`api/empleados/${entidad.stakeholder}/${entidad.negocio}/${entidad.sistema}/pageable?page=${page}&size=${size}`
+      // const response = await axiosClient.get(`api/clientes/pageable?page=${page}&size=${size}`);
+      const response = await axiosClient.get(`api/clientes/${entidad.stakeholder}/${entidad.negocio}/${entidad.sistema}/pageable?page=${page}&size=${size}`
       ,
       {
         headers: {
@@ -16,108 +16,108 @@ export const getEmpleados = (entidad,page, size) => {
         }}
         );
       dispatch({
-        type: "GET_EMPLEADOS_SUCCESS",
+        type: "GET_CLIENTES_SUCCESS",
         data: response.data,
       });
     } catch (error) {
       dispatch({
-        type: "GET_EMPLEADOS_FAIL",
+        type: "GET_CLIENTES_FAIL",
         error: true,
-        message: "Ocurrio un error al botener la empleado",
+        message: "Ocurrio un error al obtener la cliente",
       
       });
     } finally {
       dispatch({
-        type: "GET_EMPLEADOS_FINISH",
+        type: "GET_CLIENTES_FINISH",
       });
     }
   };
 };
 
 
-export const getEmpleado = (id) => {
+export const getCliente = (id) => {
   return async (dispatch) => {
 
-    dispatch({ type: "GET_EMPLEADO_START" });
+    dispatch({ type: "GET_CLIENTE_START" });
     try {
       const user = JSON.parse(sessionStorage.getItem('user'))
       const token = user.access_token
       const response = await axiosClient.get(
-        `api/empleados/${id}` ,
+        `api/clientes/${id}` ,
         {
           headers: {
             'Authorization': `Bearer ${token}`
           }}
       );
       dispatch({
-        type: "GET_EMPLEADO_SUCCESS",
+        type: "GET_CLIENTE_SUCCESS",
         data: response.data,
         
       });
     } catch (error) {
       dispatch({
-        type: "GET_EMPLEADO_FAIL",
+        type: "GET_CLIENTE_FAIL",
         error: true,
-        message: "Ocurrio un error al botener la empleado",
+        message: "Ocurrio un error al botener la cliente",
        
       });
     } finally {
       dispatch({
-        type: "GET_EMPLEADO_FINISH",
+        type: "GET_CLIENTE_FINISH",
       });
     }
   };
 };
 
-// export const deleteEmpleado = (idEmpleado)
-export const eliminarEmpleado = (id, page, size) => {
+// export const deleteCliente = (idCliente)
+export const eliminarCliente = (id, page, size) => {
   return async (dispatch) => {
-    dispatch({ type: "DELETE_EMPLEADO_START" });
+    dispatch({ type: "DELETE_CLIENTE_START" });
     try {
       const user = JSON.parse(sessionStorage.getItem('user'))
       const token = user.access_token
-       await axiosClient.delete(`api/empleados/${id}`)
-       const response = await axiosClient.get(`api/empleados/pageable?page=${page}&size=${size}` ,
+       await axiosClient.delete(`api/clientes/${id}`)
+       const response = await axiosClient.get(`api/clientes/pageable?page=${page}&size=${size}` ,
        {
          headers: {
            'Authorization': `Bearer ${token}`
          }});
-      //  const response = arrayList.filter((obj) => obj.idEmpleado !== id)
+      //  const response = arrayList.filter((obj) => obj.idCliente !== id)
       
       
       dispatch({
-        type: 'DELETE_EMPLEADO_SUCCESS',
+        type: 'DELETE_CLIENTE_SUCCESS',
         data: response.data,
         
       });
     } catch (error) {
       dispatch({
-        type: "DELETE_EMPLEADO_FAIL",
+        type: "DELETE_CLIENTE_FAIL",
         
           error: true,
           message: 'Error al eliminar tipo raza'
       
       })
     }finally{
-      dispatch({ type: "DELETE_EMPLEADO_FINISH" })
+      dispatch({ type: "DELETE_CLIENTE_FINISH" })
     }
   }
 }
 
-export const crearEmpleado = (dataForm, resetForm, navigate) => {
+export const crearCliente = (dataForm, resetForm, navigate) => {
   return async (dispatch) => {
     
-    dispatch({ type: "ADD_EMPLEADO_START" });
+    dispatch({ type: "ADD_CLIENTE_START" });
     try {
       const user = JSON.parse(sessionStorage.getItem('user'))
       const token = user.access_token
 
-      await axiosClient.post('api/empleados', dataForm,  {
+      await axiosClient.post('api/clientes', dataForm,  {
         headers: {
           'Authorization': `Bearer ${token}`
         }})
     dispatch({
-      type: "ADD_EMPLEADO_SUCCESS",
+      type: "ADD_CLIENTE_SUCCESS",
       data: true,
     })
 
@@ -135,48 +135,48 @@ export const crearEmpleado = (dataForm, resetForm, navigate) => {
     } catch (error) {
       console.log(error)
       dispatch({
-        type: "ADD_EMPLEADO_FAIL",
+        type: "ADD_CLIENTE_FAIL",
         
           error: true,
-          message: 'Error al agregar empleado'
+          message: 'Error al agregar cliente'
       
       })
     }finally{
-      dispatch({ type: "ADD_EMPLEADO_FINISH" })
+      dispatch({ type: "ADD_CLIENTE_FINISH" })
     }
   }
 }
 
-export const actualizarEmpleado = (dataForm, page, size) => {
+export const actualizarCliente = (dataForm, page, size) => {
   return async (dispatch) => {
     // console.log('5')
-    dispatch({ type: "EDIT_EMPLEADO_START" });
+    dispatch({ type: "EDIT_CLIENTE_START" });
     try {
-      // console.log('actualizarEmpleado')
+      // console.log('actualizarCliente')
       // console.log(dataForm)
       const user = JSON.parse(sessionStorage.getItem('user'))
       const token = user.access_token
-      await axiosClient.put('api/empleados', dataForm ,
+      await axiosClient.put('api/clientes', dataForm ,
       {
         headers: {
           'Authorization': `Bearer ${token}`
         }})
-      //  const response = await axiosClient.get(`api/empleados/pageable?page=${page}&size=${size}`);
+      //  const response = await axiosClient.get(`api/clientes/pageable?page=${page}&size=${size}`);
 
     dispatch({
-      type: "EDIT_EMPLEADO_SUCCESS",
+      type: "EDIT_CLIENTE_SUCCESS",
       data: true
     })
     } catch (error) {
       dispatch({
-        type: "EDIT_EMPLEADO_FAIL",
+        type: "EDIT_CLIENTE_FAIL",
   
           error: true,
-          message: 'Error al agregar empleado'
+          message: 'Error al agregar cliente'
    
       })
     }finally{
-      dispatch({ type: "EDIT_EMPLEADO_FINISH" })
+      dispatch({ type: "EDIT_CLIENTE_FINISH" })
     }
   }
 }

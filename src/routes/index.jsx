@@ -1,21 +1,19 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignIn from "../pages/SignIn";
+import Dashboard from "../pages/Dashboard";
 import SignUp from "../pages/SignUp";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
-import CategoriaInsumo from "../pages/CategoriaInsumo";
-import TipoRaza from "../pages/TipoRaza";
-import TipoMascota from "../pages/TipoMascota";
-import ListMascota from "../pages/Mascota";
-import AgregarMascota from "../pages/Mascota/Agregar";
-import EditarMascota from "../pages/Mascota/Editar";
-import ListaServicio from "../pages/Servicio";
-import AgregarServicio from "../pages/Servicio/Agregar";
-import EditarServicio from "../pages/Servicio/Editar";
-import TablaMaestra from "../components/Maestra/Tabla";
-import AgregarMaestra from "../pages/Maestra/Agregar";
-import EditarMaestra from "../pages/Maestra/Editar";
+
+import Empleado from "../pages/Empleado";
+import AgregarEmpleado from "../pages/Empleado/Agregar";
+import EditarEmpleado from "../pages/Empleado/Editar";
+
+import Animal from "../pages/Animal";
+
+import EditarAnimal from "../pages/Animal/Editar";
+import AgregarAnimal from "../pages/Animal/Agregar";
 
 const Rutas = () => {
   return (
@@ -40,97 +38,69 @@ const Rutas = () => {
             }
           />
         </Route>
-
         <Route
           index
-          path="/list-CategoriaInsumo"
+          path='/dashboard'
           element={
             <PrivateRoute>
-              <CategoriaInsumo />
+              <Dashboard />
             </PrivateRoute>
           }
         />
-
-
-
         <Route
           index
-          path="/list-tipo-raza"
+          path="/list-animal"
           element={
             <PrivateRoute>
-              <TipoRaza />
+              <Animal />
             </PrivateRoute>
           }
         />
-
         <Route
           index
-          path="/list-tipo-mascota"
+          path="/crear-animal"
           element={
             <PrivateRoute>
-              
-              <TipoMascota />
-            </PrivateRoute>
-          }
-        />
-
-        {/* mascotas */}
-<Route
-          index
-          path="/list-mascotas"
-          element={
-            <PrivateRoute>
-              <ListMascota />
-            </PrivateRoute>
-          }
-        />
-                <Route
-          index
-          path="/crear-mascota"
-          element={
-            <PrivateRoute>
-              <AgregarMascota />
+              <AgregarAnimal />
             </PrivateRoute>
           }
         />
 
         <Route
           index
-          path="/mascota/edit/:id"
+          path="/animal/edit/:id"
           element={
             <PrivateRoute>
-              <EditarMascota />
-            </PrivateRoute>
-          }
-        />
-
-
-      {/* servicios */}
-      <Route
-          index
-          path="/list-servicios"
-          element={
-            <PrivateRoute>
-              <ListaServicio />
-            </PrivateRoute>
-          }
-        />
-                <Route
-          index
-          path="/crear-servicio"
-          element={
-            <PrivateRoute>
-              <AgregarServicio />
+              <EditarAnimal />
             </PrivateRoute>
           }
         />
 
         <Route
           index
-          path="/servicio/edit/:id"
+          path="/list-empleado"
           element={
             <PrivateRoute>
-              <EditarServicio />
+              <Empleado />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          index
+          path="/crear-empleado"
+          element={
+            <PrivateRoute>
+              <AgregarEmpleado />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          index
+          path="/empleado/edit/:id"
+          element={
+            <PrivateRoute>
+              <EditarEmpleado />
             </PrivateRoute>
           }
         />

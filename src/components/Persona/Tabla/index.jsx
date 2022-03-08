@@ -1,5 +1,7 @@
+import React from 'react';
 import {
   Alert,
+  Box,
   Button,
   CircularProgress,
   Dialog,
@@ -16,49 +18,29 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import {
+  getPersonas,
+  eliminarPersona,
+  getPersona,
+} from "../../../redux/actions/Persona";
 import TablaHeader from "../../TablaHeader";
-import { useDispatch, useSelector } from "react-redux";
-
-
-import MascotaForm from "../Form";
-import { eliminarMascota, getMascotas } from "../../../redux/actions/Mascota";
-import { Link, useNavigate } from "react-router-dom";
-
 
 const headCells = [
-
   {
     id: "nombre",
     numeric: false,
     disablePadding: false,
     label: "Nombre",
   },
-  {
-    id: "tipoMascota",
-    numeric: false,
-    disablePadding: false,
-    label: "Tipo de Mascota",
-  },
-  {
-    id: "tipoRaza",
-    numeric: false,
-    disablePadding: false,
-    label: "Tipo de Raza",
-  },
-  {
-    id: "peso",
-    numeric: false,
-    disablePadding: false,
-    label: "Peso",
-  },
-
- 
 ];
 
-function stableSort(array, comparator) {
- 
+const stableSort = (array, comparator) => {
+  // console.log(array)
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -68,9 +50,9 @@ function stableSort(array, comparator) {
     return a[1] - b[1];
   });
   return stabilizedThis.map((el) => el[0]);
-}
+};
 
-function descendingComparator(a, b, orderBy) {
+const descendingComparator = (a, b, orderBy) => {
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -78,24 +60,23 @@ function descendingComparator(a, b, orderBy) {
     return 1;
   }
   return 0;
-}
+};
 
-function getComparator(order, orderBy) {
+const getComparator = (order, orderBy) => {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
-}
+};
 
+const ListaPersona = ({entidad, mantenimiento}) => {
 
-
-const TablaMascota = () => {
   const state = useSelector((state) => state);
-  
-  const { mascotaReducer } = state;
-  // console.log(mascotaReducer)
-  const { loadingMascotas, mascotaList } = mascotaReducer;
+  const { personaReducer } = state;
+  const { loadingPersonas, personaList } = personaReducer;
+
+  const [count, setCount] = useState(0);
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("idMascota");
+  const [orderBy, setOrderBy] = useState("idPersona");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   // const [dense, setDense] = useState(false);
@@ -104,32 +85,27 @@ const TablaMascota = () => {
   const [datos, setDatos] = useState([]);
   const [data, setData] = useState("");
   const [rows, setRows] = useState([]);
-  const [count, setCount] = useState(0)
 
-  const [modalInsertar, setModalInsertar] = useState(false);
-  const [modalEditar, setModalEditar] = useState(false);
+
+
   const [modalEliminar, setModalEliminar] = useState(false);
-  const [editar, setEditar] = useState(false);
+
   const [mensaje, setMensaje] = useState("");
   const [openSnackBar, setOpenSnackBar] = useState(false);
 
-
   const dispatch = useDispatch();
-  const navigate = useNavigate()
-     
 
   useEffect(() => {
- 
-    if(mascotaList?.content){
-    setRows(mascotaList.content);
-    setDatos(mascotaList.content);
-    setPage(mascotaList.number);
-    setCount(mascotaList.totalElements)
-  }
-  }, [mascotaList?.content]);
+    if (personaList?.content) {
+      setRows(personaList.content);
+      setDatos(personaList.content);
+      setPage(personaList.number);
+      setCount(personaList.totalElements);
+    }
+  }, [personaList?.content]);
 
   useEffect(() => {
-    dispatch(getMascotas(page, rowsPerPage));
+    dispatch(getPersonas(entidad, page, rowsPerPage));
   }, []);
 
   const handleRequestSort = (event, property) => {
@@ -140,7 +116,7 @@ const TablaMascota = () => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = mascotaList.content.content.map((n) => n.idMascota);
+      const newSelecteds = personaList.content.content.map((n) => n.idPersona);
       setSelected(newSelecteds);
       return;
     }
@@ -169,15 +145,18 @@ const TablaMascota = () => {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    dispatch(getMascotas(newPage, rowsPerPage));
+    dispatch(getPersonas(newPage, rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    dispatch(getMascotas(0, event.target.value));
+    dispatch(getPersona(0, event.target.value));
   };
 
+  // const handleChangeDense = (event) => {
+  //   setDense(event.target.checked);
+  // };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -192,7 +171,7 @@ const TablaMascota = () => {
   const search = (filtro) => {
     const filteredRows = datos.filter((row) => {
       return (
-        row.nombre.toLowerCase().includes(filtro.toLowerCase()) ||
+        row.nombres.toLowerCase().includes(filtro.toLowerCase()) ||
         row.descripcion.toLowerCase().includes(filtro.toLowerCase())
       );
     });
@@ -200,52 +179,24 @@ const TablaMascota = () => {
     setRows(filteredRows);
   };
 
-  const handleOpenEdit = (row) => {
-    setEditar(true);
-    setModalInsertar(true);
-    setData(row);
-  };
-
-  const handleOpenInsert = () => {
-    setEditar(false);
-    setModalInsertar(true);
-    setData({
-      idMascota: null,
-      nombre: "",
-      peso: "",
-      sexo: ""
-    });
-  };
-
-  const cerrarModalInsertar = () => {
-    setModalInsertar(false);
-  };
 
 
   const handleDelete = () => {
-    // console.log('page')
-    // console.log(page)
-    // console.log('rowsPerPage')
-    // console.log(rowsPerPage)
     if (rows.length === 1) {
       let update = page - 1;
       if (update < 0) {
         update = 0;
       }
 
-      
       setPage(update);
-      dispatch(eliminarMascota(data.idMascota, update, rowsPerPage));
+      dispatch(eliminarPersona(data.idTipoPersona, update, rowsPerPage));
     } else {
-
-      dispatch(eliminarMascota(data.idMascota, page, rowsPerPage));
+      dispatch(eliminarPersona(data.idTipoPersona, page, rowsPerPage));
     }
-    
-    cerrarModalEliminar()
-    setMensaje("Se elimino correctamente")
-    setOpenSnackBar(true)
 
- 
+    cerrarModalEliminar();
+    setMensaje("Se elimino correctamente");
+    setOpenSnackBar(true);
   };
 
   const handleOpenDelete = (row) => {
@@ -258,8 +209,9 @@ const TablaMascota = () => {
   };
 
   const handleCloseSnackBar = () => {
-    setOpenSnackBar(false)
-  }
+    setOpenSnackBar(false);
+  };
+
 
   return (
     <>
@@ -275,21 +227,21 @@ const TablaMascota = () => {
         autoComplete="off"
       >
         <TextField
-          placeholder="Buscar Mascota"
+          placeholder="Buscar Persona"
           variant="standard"
           name="searched"
           value={searched}
           onChange={handleFilterSearch}
         />
         <Button size="small" color="primary" 
-        component={Link}
-        to='/crear-mascota'>
-          Agregar
-        </Button>
+      component={Link}
+      to={`/crear-${mantenimiento.nombre}`}>
+        Agregar
+      </Button>
       </Box>
 
-      {!mascotaList && <CircularProgress color="inherit" />}
-      {mascotaList && rows?.length > 0 && (
+      {!personaList && <CircularProgress color="inherit" />}
+      {personaList && rows?.length > 0 && (
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 550 }} aria-label="simple table">
             <TablaHeader
@@ -310,27 +262,26 @@ const TablaMascota = () => {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.idMascota)}
+                      onClick={(event) => handleClick(event, row.idPersona)}
                       role="checkbox"
                       tabIndex={-1}
-                      key={row.idMascota}
+                      key={row.idPersona}
                     >
-                      {/* {console.log(row)} */}
-                      <TableCell align="left">{row.nombre}</TableCell>
-                      <TableCell align="left">{row.tipoRaza.tipoMascota.nombre}</TableCell>
-                      <TableCell align="left">{row.tipoRaza.nombre}</TableCell>
-                      <TableCell align="left">{row.peso}</TableCell>
+
+                      <TableCell align="left">{row.nombres}</TableCell>
+                      <TableCell align="left">{row.descripcion}</TableCell>
                       <TableCell align="right">
                         <Button size="small">Ver</Button>
                       </TableCell>
                       <TableCell align="right">
-                        <Button
-                          size="small"
-                          color="primary"
-                          component={Link}
-                          to={`/mascota/edit/${row.idMascota}`}
-                        >
-                          Editar
+                      <Button
+                        size="small"
+                        color="primary"
+                        component={Link}
+                        to={`/${mantenimiento.nombre}/edit/${row.idPersona}`}
+                      >
+                        Editar
+                     
                         </Button>
                       </TableCell>
                       <TableCell align="right">
@@ -356,34 +307,19 @@ const TablaMascota = () => {
         </TableContainer>
       )}
 
-      {rows?.length > 0 && (
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={count}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      )}
+{rows?.length > 0 && (
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={count}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    )}
 
-      <Dialog open={modalInsertar} onClose={cerrarModalInsertar}>
-        <DialogTitle>Insertar</DialogTitle>
-        <DialogContent>
-          <MascotaForm
-            data={data}
-            editar={editar}
-            cerrarModalInsertar={cerrarModalInsertar}
-            page={page}
-            size={rowsPerPage}
-          />
-        </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={cerrarModalInsertar}>Cancel</Button>
-          <Button onClick={cerrarModalInsertar}>Subscribe</Button>
-        </DialogActions> */}
-      </Dialog>
+
 
 
 
@@ -414,4 +350,4 @@ const TablaMascota = () => {
   );
 };
 
-export default TablaMascota;
+export default ListaPersona;

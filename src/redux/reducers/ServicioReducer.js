@@ -1,86 +1,86 @@
 const initialState = {
   loadingList: false,
   loadingCrud: false,
-  maestra: {},
+  servicio: {},
   editOk: false,
   addOk: false,
   deleteOk: false,
-  maestraList: [],
+  servicioList: [],
   messageCrud: null,
 
 };
 
-export const MaestraReducer = (state = initialState, action) => {
+export const ServicioReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_MAESTRAS_START":
+    case "GET_SERVICIOS_START":
       return {
         ...state,
         loadingList: true,
       };
 
-    case "GET_MAESTRAS_SUCCESS":
+    case "GET_SERVICIOS_SUCCESS":
       return {
         ...state,
-        maestraList: action.data,
+        servicioList: action.data,
       };
 
-    case "GET_MAESTRAS_FAIL":
+    case "GET_SERVICIOS_FAIL":
       return {
         ...state,
-        maestraList: null,
+        servicioList: null,
         messageCrud: {
           code: action.error,
           message: action.message,
         },
       };
-    case "GET_MAESTRAS_FINISH":
+    case "GET_SERVICIOS_FINISH":
       return {
         ...state,
         loadingList: false,
       };
 
-    case "GET_MAESTRA_START":
+    case "GET_SERVICIO_START":
       return {
         ...state,
         loadingCrud: true,
       };
 
-    case "GET_MAESTRA_SUCCESS":
+    case "GET_SERVICIO_SUCCESS":
       return {
         ...state,
-        maestra: action.data,
+        servicio: action.data,
       };
 
-    case "GET_MAESTRA_FAIL":
+    case "GET_SERVICIO_FAIL":
       return {
         ...state,
-        maestraList: null,
+        servicioList: null,
         messageCrud: {
           code: action.error,
           message: action.message,
         },
       };
-    case "GET_MAESTRA_FINISH":
+    case "GET_SERVICIO_FINISH":
       return {
         ...state,
         loadingCrud: false,
       };
 
-    case "DELETE_MAESTRA_START":
+    case "DELETE_SERVICIO_START":
       return {
         ...state,
         loadingCrud: true,
       };
 
-    case "DELETE_MAESTRA_SUCCESS":
+    case "DELETE_SERVICIO_SUCCESS":
       return {
         ...state,
         addOk: false,
         editOk: false,
         deleteOk: true,
-        maestraList: action.data,
+        servicioList: action.data,
       };
-    case "DELETE_MAESTRA_FAIL":
+    case "DELETE_SERVICIO_FAIL":
       return {
         ...state,
         messageCrud: {
@@ -88,18 +88,18 @@ export const MaestraReducer = (state = initialState, action) => {
           message: action.message,
         },
       };
-    case "DELETE_MAESTRA_FINISH":
+    case "DELETE_SERVICIO_FINISH":
       return {
         ...state,
         loadingCrud: false,
       };
-    case "ADD_MAESTRA_START":
+    case "ADD_SERVICIO_START":
       return {
         ...state,
 
         loadingCrud: true,
       };
-    case "ADD_MAESTRA_SUCCESS":
+    case "ADD_SERVICIO_SUCCESS":
       return {
         ...state,
 
@@ -111,7 +111,7 @@ export const MaestraReducer = (state = initialState, action) => {
           message: "Elemento Creado Correctamente",
         },
       };
-    case "ADD_MAESTRA_FAIL":
+    case "ADD_SERVICIO_FAIL":
       return {
         ...state,
         messageCrud: {
@@ -119,19 +119,19 @@ export const MaestraReducer = (state = initialState, action) => {
           message: action.message,
         },
       };
-    case "ADD_MAESTRA_FINISH":
+    case "ADD_SERVICIO_FINISH":
       return {
         ...state,
 
         loadingCrud: false,
       };
 
-    case "EDIT_MAESTRA_START":
+    case "EDIT_SERVICIO_START":
       return {
         ...state,
         loadingCrud: true,
       };
-    case "EDIT_MAESTRA_SUCCESS":
+    case "EDIT_SERVICIO_SUCCESS":
       return {
         ...state,
         addOk: false,
@@ -142,7 +142,7 @@ export const MaestraReducer = (state = initialState, action) => {
           message: "Elemento editado Correctamente",
         },
       };
-    case "EDIT_MAESTRA_FAIL":
+    case "EDIT_SERVICIO_FAIL":
       return {
         ...state,
         messageCrud: {
@@ -150,7 +150,7 @@ export const MaestraReducer = (state = initialState, action) => {
           message: action.message,
         },
       };
-    case "EDIT_MAESTRA_FINISH":
+    case "EDIT_SERVICIO_FINISH":
       return {
         ...state,
         loadingCrud: false,

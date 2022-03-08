@@ -1,86 +1,85 @@
 const initialState = {
   loadingList: false,
   loadingCrud: false,
-  maestra: {},
+  persona: {},
   editOk: false,
   addOk: false,
   deleteOk: false,
-  maestraList: [],
+  personaList: [],
   messageCrud: null,
-
 };
 
-export const MaestraReducer = (state = initialState, action) => {
+export const PersonaReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_MAESTRAS_START":
+    case "GET_PERSONAS_START":
       return {
         ...state,
         loadingList: true,
       };
 
-    case "GET_MAESTRAS_SUCCESS":
+    case "GET_PERSONAS_SUCCESS":
       return {
         ...state,
-        maestraList: action.data,
+        personaList: action.data,
       };
 
-    case "GET_MAESTRAS_FAIL":
+    case "GET_PERSONAS_FAIL":
       return {
         ...state,
-        maestraList: null,
+        personaList: null,
         messageCrud: {
           code: action.error,
           message: action.message,
         },
       };
-    case "GET_MAESTRAS_FINISH":
+    case "GET_PERSONAS_FINISH":
       return {
         ...state,
         loadingList: false,
       };
 
-    case "GET_MAESTRA_START":
+    case "GET_PERSONA_START":
       return {
         ...state,
         loadingCrud: true,
       };
 
-    case "GET_MAESTRA_SUCCESS":
+    case "GET_PERSONA_SUCCESS":
       return {
         ...state,
-        maestra: action.data,
+        persona: action.data,
       };
 
-    case "GET_MAESTRA_FAIL":
+    case "GET_PERSONA_FAIL":
       return {
         ...state,
-        maestraList: null,
+        personaList: null,
         messageCrud: {
           code: action.error,
           message: action.message,
         },
       };
-    case "GET_MAESTRA_FINISH":
+    case "GET_PERSONA_FINISH":
       return {
         ...state,
         loadingCrud: false,
       };
 
-    case "DELETE_MAESTRA_START":
+    case "DELETE_PERSONA_START":
       return {
         ...state,
+
         loadingCrud: true,
       };
-
-    case "DELETE_MAESTRA_SUCCESS":
+    case "DELETE_PERSONA_SUCCESS":
       return {
         ...state,
         addOk: false,
         editOk: false,
         deleteOk: true,
-        maestraList: action.data,
+        personaList: action.data,
       };
-    case "DELETE_MAESTRA_FAIL":
+    case "DELETE_PERSONA_FAIL":
       return {
         ...state,
         messageCrud: {
@@ -88,18 +87,18 @@ export const MaestraReducer = (state = initialState, action) => {
           message: action.message,
         },
       };
-    case "DELETE_MAESTRA_FINISH":
+    case "DELETE_PERSONA_FINISH":
       return {
         ...state,
         loadingCrud: false,
       };
-    case "ADD_MAESTRA_START":
+    case "ADD_PERSONA_START":
       return {
         ...state,
 
         loadingCrud: true,
       };
-    case "ADD_MAESTRA_SUCCESS":
+    case "ADD_PERSONA_SUCCESS":
       return {
         ...state,
 
@@ -108,10 +107,10 @@ export const MaestraReducer = (state = initialState, action) => {
         deleteOk: false,
         messageCrud: {
           code: "success",
-          message: "Elemento Creado Correctamente",
+          message: "Elemento creado correctamente",
         },
       };
-    case "ADD_MAESTRA_FAIL":
+    case "ADD_PERSONA_FAIL":
       return {
         ...state,
         messageCrud: {
@@ -119,19 +118,19 @@ export const MaestraReducer = (state = initialState, action) => {
           message: action.message,
         },
       };
-    case "ADD_MAESTRA_FINISH":
+    case "ADD_PERSONA_FINISH":
       return {
         ...state,
 
         loadingCrud: false,
       };
-
-    case "EDIT_MAESTRA_START":
+    case "EDIT_PERSONA_START":
       return {
         ...state,
+
         loadingCrud: true,
       };
-    case "EDIT_MAESTRA_SUCCESS":
+    case "EDIT_PERSONA_SUCCESS":
       return {
         ...state,
         addOk: false,
@@ -142,7 +141,7 @@ export const MaestraReducer = (state = initialState, action) => {
           message: "Elemento editado Correctamente",
         },
       };
-    case "EDIT_MAESTRA_FAIL":
+    case "EDIT_PERSONA_FAIL":
       return {
         ...state,
         messageCrud: {
@@ -150,7 +149,7 @@ export const MaestraReducer = (state = initialState, action) => {
           message: action.message,
         },
       };
-    case "EDIT_MAESTRA_FINISH":
+    case "EDIT_PERSONA_FINISH":
       return {
         ...state,
         loadingCrud: false,
@@ -161,10 +160,6 @@ export const MaestraReducer = (state = initialState, action) => {
         messageCrud: null,
         // messageLogin: null,
       };
-
-
-
-
 
     default:
       return state;

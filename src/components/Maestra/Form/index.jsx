@@ -1,17 +1,16 @@
-import { AccountCircle } from "@mui/icons-material";
 import {
-  Avatar,
+  Alert,
   Button,
   CircularProgress,
   Container,
   CssBaseline,
-  listClasses,
   TextField,
-  Typography,
 } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import {actualizarMaestra, crearMaestra,
+import {
+  actualizarMaestra,
+  crearMaestra,
 } from "../../../redux/actions/Maestra";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -41,38 +40,38 @@ const useStyles = {
   },
 };
 
-
-
 const validationSchema = Yup.object({
-  nombre: Yup.string().required("El titulo es Obligatorio"),
+  nombre: Yup.string().required("El nombre es Obligatorio"),
   descripcion: Yup.string().required("La descripción es Obligatoria"),
 });
 
-const MaestraForm = ({ editar = false, dataForm }) => {
-  const state = useSelector((state) => state)
-  const {maestraReducer} = state
-  const {loadingMaestra} = maestraReducer
+const MaestraForm = ({ editar = false, dataForm, mantenimiento }) => {
+  const linkRedirect = `/list-${mantenimiento.nombre}`;
+  const state = useSelector((state) => state);
+  const { maestraReducer } = state;
+  const { loadingCrud, messageCrud } = maestraReducer;
   const dispatch = useDispatch();
 
-  
-  
   const ejecutar = (valores) => {
-
     if (editar) {
-      dispatch(actualizarMaestra({ ...valores }));
+      dispatch(
+        actualizarMaestra({ ...valores, idMaestraPadre: mantenimiento.codigo })
+      );
     } else {
-      dispatch(crearMaestra({ ...valores }));
+      dispatch(
+        crearMaestra({ ...valores, idMaestraPadre: mantenimiento.codigo })
+      );
     }
-   
+
     setTimeout(() => {
-        dispatch({
-          type: 'CLEAR_MESSAGE_NOTIFICATION',
-        });
-        // resetForm();
-        // if (errors) {
-          navigate('/list-maestras');
-        // }
-      }, 1500);
+      dispatch({
+        type: "CLEAR_MESSAGE_NOTIFICATION",
+      });
+      // resetForm();
+      // if (errors) {
+      navigate(linkRedirect);
+      // }
+    }, 1500);
   };
 
   const navigate = useNavigate();
@@ -122,17 +121,17 @@ const MaestraForm = ({ editar = false, dataForm }) => {
                   props.touched.descripcion && props.errors.descripcion
                 }
               />
-
+              {messageCrud && (
+                <Alert severity={messageCrud.code}>
+                  {messageCrud.message}
+                </Alert>
+              )}
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
-                endIcon={
-                  loadingMaestra ?(
-                    <CircularProgress size={20} />
-                  ): null
-                }
+                endIcon={loadingCrud ? <CircularProgress size={20} /> : null}
               >
                 {editar ? "Editar" : "Crear"}
               </Button>

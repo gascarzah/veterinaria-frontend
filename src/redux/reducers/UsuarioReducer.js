@@ -1,86 +1,85 @@
 const initialState = {
   loadingList: false,
   loadingCrud: false,
-  maestra: {},
+  usuario: {},
   editOk: false,
   addOk: false,
   deleteOk: false,
-  maestraList: [],
+  usuarioList: [],
   messageCrud: null,
-
 };
 
-export const MaestraReducer = (state = initialState, action) => {
+export const UsuarioReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_MAESTRAS_START":
+    case "GET_USUARIOS_START":
       return {
         ...state,
         loadingList: true,
       };
 
-    case "GET_MAESTRAS_SUCCESS":
+    case "GET_USUARIOS_SUCCESS":
       return {
         ...state,
-        maestraList: action.data,
+        usuarioList: action.data,
       };
 
-    case "GET_MAESTRAS_FAIL":
+    case "GET_USUARIOS_FAIL":
       return {
         ...state,
-        maestraList: null,
+        usuarioList: null,
         messageCrud: {
           code: action.error,
           message: action.message,
         },
       };
-    case "GET_MAESTRAS_FINISH":
+    case "GET_USUARIOS_FINISH":
       return {
         ...state,
         loadingList: false,
       };
 
-    case "GET_MAESTRA_START":
+    case "GET_USUARIO_START":
       return {
         ...state,
         loadingCrud: true,
       };
 
-    case "GET_MAESTRA_SUCCESS":
+    case "GET_USUARIO_SUCCESS":
       return {
         ...state,
-        maestra: action.data,
+        usuario: action.data,
       };
 
-    case "GET_MAESTRA_FAIL":
+    case "GET_USUARIO_FAIL":
       return {
         ...state,
-        maestraList: null,
+        usuarioList: null,
         messageCrud: {
           code: action.error,
           message: action.message,
         },
       };
-    case "GET_MAESTRA_FINISH":
+    case "GET_USUARIO_FINISH":
       return {
         ...state,
         loadingCrud: false,
       };
 
-    case "DELETE_MAESTRA_START":
+    case "DELETE_USUARIO_START":
       return {
         ...state,
         loadingCrud: true,
       };
 
-    case "DELETE_MAESTRA_SUCCESS":
+    case "DELETE_USUARIO_SUCCESS":
       return {
         ...state,
         addOk: false,
         editOk: false,
         deleteOk: true,
-        maestraList: action.data,
+        usuarioList: action.data,
       };
-    case "DELETE_MAESTRA_FAIL":
+    case "DELETE_USUARIO_FAIL":
       return {
         ...state,
         messageCrud: {
@@ -88,19 +87,20 @@ export const MaestraReducer = (state = initialState, action) => {
           message: action.message,
         },
       };
-    case "DELETE_MAESTRA_FINISH":
+    case "DELETE_USUARIO_FINISH":
       return {
         ...state,
         loadingCrud: false,
       };
-    case "ADD_MAESTRA_START":
+    case "ADD_USUARIO_START":
       return {
         ...state,
 
         loadingCrud: true,
       };
-    case "ADD_MAESTRA_SUCCESS":
-      return {
+    case "ADD_USUARIO_SUCCESS":
+      
+    return {
         ...state,
 
         addOk: action.data,
@@ -111,27 +111,29 @@ export const MaestraReducer = (state = initialState, action) => {
           message: "Elemento Creado Correctamente",
         },
       };
-    case "ADD_MAESTRA_FAIL":
+    case "ADD_USUARIO_FAIL":
+    
       return {
         ...state,
         messageCrud: {
-          code: action.error,
+          code: "error",
           message: action.message,
         },
+       
       };
-    case "ADD_MAESTRA_FINISH":
+    case "ADD_USUARIO_FINISH":
       return {
         ...state,
 
         loadingCrud: false,
       };
 
-    case "EDIT_MAESTRA_START":
+    case "EDIT_USUARIO_START":
       return {
         ...state,
         loadingCrud: true,
       };
-    case "EDIT_MAESTRA_SUCCESS":
+    case "EDIT_USUARIO_SUCCESS":
       return {
         ...state,
         addOk: false,
@@ -142,7 +144,7 @@ export const MaestraReducer = (state = initialState, action) => {
           message: "Elemento editado Correctamente",
         },
       };
-    case "EDIT_MAESTRA_FAIL":
+    case "EDIT_USUARIO_FAIL":
       return {
         ...state,
         messageCrud: {
@@ -150,7 +152,7 @@ export const MaestraReducer = (state = initialState, action) => {
           message: action.message,
         },
       };
-    case "EDIT_MAESTRA_FINISH":
+    case "EDIT_USUARIO_FINISH":
       return {
         ...state,
         loadingCrud: false,
@@ -161,10 +163,6 @@ export const MaestraReducer = (state = initialState, action) => {
         messageCrud: null,
         // messageLogin: null,
       };
-
-
-
-
 
     default:
       return state;

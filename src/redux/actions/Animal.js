@@ -2,88 +2,26 @@
 import axiosClient from "../../config/axios";
 
 
-export const getTipoDocumento = () => {
+export const getAnimal = (idMaestraPadre, page, size) => {
   return async (dispatch) => {
-    dispatch({ type: "GET_TIPODOCUMENTOS_START" });
+    dispatch({ type: "GET_ANIMAL_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
-
-      const response = await axiosClient.get(`api/maestras/tipoDocumento`,
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }}
-        );
+      
+      const response = await axiosClient.get(`api/animal/${idMaestraPadre}/pageable?page=${page}&size=${size}`);
       dispatch({
-        type: "GET_TIPODOCUMENTOS_SUCCESS",
+        type: "GET_ANIMAL_SUCCESS",
         data: response.data,
       });
     } catch (error) {
       dispatch({
-        type: "GET_TIPODOCUMENTOS_FAIL",
-        error: true,
-        message: "Ocurrio un error al obtener tipo documento",
-      
-      });
-    } finally {
-      dispatch({
-        type: "GET_TIPODOCUMENTOS_FINISH",
-      });
-    }
-  };
-};
-
-export const getSexo = () => {
-  return async (dispatch) => {
-    dispatch({ type: "GET_SEXOS_START" });
-    try {
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
-      const response = await axiosClient.get(`api/maestras/sexo`,
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }});
-      dispatch({
-        type: "GET_SEXOS_SUCCESS",
-        data: response.data,
-      });
-    } catch (error) {
-      dispatch({
-        type: "GET_SEXOS_FAIL",
-        error: true,
-        message: "Ocurrio un error al obtener sexo",
-      
-      });
-    } finally {
-      dispatch({
-        type: "GET_SEXOS_FINISH",
-      });
-    }
-  };
-};
-
-export const getMaestras = (idMaestraPadre, page, size) => {
-  return async (dispatch) => {
-    dispatch({ type: "GET_MAESTRAS_START" });
-    try {
-      
-      const response = await axiosClient.get(`api/maestras/${idMaestraPadre}/pageable?page=${page}&size=${size}`);
-      dispatch({
-        type: "GET_MAESTRAS_SUCCESS",
-        data: response.data,
-      });
-    } catch (error) {
-      dispatch({
-        type: "GET_MAESTRAS_FAIL",
+        type: "GET_ANIMAL_FAIL",
         error: true,
         message: "Ocurrio un error al botener la maestra",
       
       });
     } finally {
       dispatch({
-        type: "GET_MAESTRAS_FINISH",
+        type: "GET_ANIMAL_FINISH",
       });
     }
   };
@@ -96,7 +34,7 @@ export const getMaestra = (id) => {
     dispatch({ type: "GET_MAESTRA_START" });
     try {
       const response = await axiosClient.get(
-        `api/maestras/${id}`
+        `api/animal/${id}`
       );
       dispatch({
         type: "GET_MAESTRA_SUCCESS",
@@ -123,8 +61,8 @@ export const eliminarMaestra = (idMaestraPadre,id, page, size) => {
   return async (dispatch) => {
     dispatch({ type: "DELETE_MAESTRA_START" });
     try {
-       await axiosClient.delete(`api/maestras/${id}`)
-       const response = await axiosClient.get(`api/maestras/${idMaestraPadre}/pageable?page=${page}&size=${size}`);
+       await axiosClient.delete(`api/animal/${id}`)
+       const response = await axiosClient.get(`api/animal/${idMaestraPadre}/pageable?page=${page}&size=${size}`);
       //  const response = arrayList.filter((obj) => obj.idMaestra !== id)
       
       
@@ -155,7 +93,7 @@ export const crearMaestra = (dataForm) => {
     try {
 
 
-      await axiosClient.post('api/maestras', dataForm)
+      await axiosClient.post('api/animal', dataForm)
     dispatch({
       type: "ADD_MAESTRA_SUCCESS",
       data: true,
@@ -168,7 +106,7 @@ export const crearMaestra = (dataForm) => {
       // });
       // resetForm();
       // if (errors) {
-        // navigate('/list-maestras');
+        // navigate('/list-animal');
       // }
     // }, 1500);
 
@@ -194,8 +132,8 @@ export const actualizarMaestra = (dataForm, page, size) => {
     try {
       // console.log('actualizarMaestra')
       // console.log(dataForm)
-      await axiosClient.put('api/maestras', dataForm)
-      //  const response = await axiosClient.get(`api/maestras/pageable?page=${page}&size=${size}`);
+      await axiosClient.put('api/animal', dataForm)
+      //  const response = await axiosClient.get(`api/animal/pageable?page=${page}&size=${size}`);
 
     dispatch({
       type: "EDIT_MAESTRA_SUCCESS",

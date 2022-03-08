@@ -1,18 +1,24 @@
-import { Avatar, Button, CircularProgress, Container, CssBaseline, Grid, Link,  TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Button, CircularProgress, Container, CssBaseline, Grid,   TextField, Typography } from '@mui/material';
 import {makeStyles} from '@mui/styles'
 import React from 'react';
 import { LockOutlined } from "@mui/icons-material";
 
-import { useFormik } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup'
+import { Link } from 'react-router-dom';
+import { login } from '../../redux/actions/Auth';
+import { useDispatch, useSelector } from 'react-redux';
+
+
+
 
 const initialValues = {
-    email: '',
+    username: '',
     password: ''
 }
 
 const validationSchema = Yup.object({
-    email: Yup.string().email('invalid mail').required('mail is mandatory'),
+    username: Yup.string().required('mail is mandatory'),
     password: Yup.string().required('password mandatory').min(5, 'password must at least 5 characters')
 })
 
@@ -43,19 +49,23 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const LoginForm = () => {
-    const classes = useStyles();
-    // const { login, loadingLogin, messageLogin } = useContext(UserContext);
+  const state = useSelector((state) => state);
+  const { authReducer } = state;
+  const { user, messageLogin, loadingLogin } = authReducer;
+  // console.log('antes de mandar')
+  // console.log(authReducer)
+  const classes = useStyles();
 
-    const formik = useFormik({
-        initialValues,
-        validationSchema,
-        onSubmit: (values, {resetForm}) => {
-            // const {email, password} = values
-            // console.log(values)
-            // login(values, resetForm);
-        }
-    })
+    const ejecutar = (valores, resetForm) => {
+    //  console.log('antes de mandar')
+      dispatch(login(valores, resetForm));
+      // console.log('despues de mandar')
+    };
 
+    
+
+
+    const dispatch = useDispatch();
     return (
         <Container component='main' maxWidth='xs'>
         <CssBaseline />
@@ -66,25 +76,37 @@ const LoginForm = () => {
           <Typography component='h1' variant='h5'>
             Iniciar Sesión
           </Typography>
-          <form
+          <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        enableReinitialize
+        onSubmit={(valores,{resetForm}) => {
+          
+          ejecutar(valores, resetForm);
+        }}
+      >
+        {(props) => (
+          <form onSubmit={props.handleSubmit}>
+         
+          {/* <form
             className={classes.form}
             noValidate={true}
             onSubmit={formik.handleSubmit}
-          >
+          > */}
             <TextField
               variant='outlined'
               margin='normal'
               required
               fullWidth
-              id='email'
+              id='username'
               label='Correo'
-              name='email'
-              autoComplete='email'
+              name='username'
+              autoComplete='username'
               autoFocus
-              onChange={formik.handleChange}
-              value={formik.values.email}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
+              onChange={props.handleChange}
+              value={props.values.username}
+              error={props.touched.username && Boolean(props.errors.username)}
+              helperText={props.touched.username && props.errors.username}
             />
             <TextField
               variant='outlined'
@@ -96,10 +118,10 @@ const LoginForm = () => {
               type='password'
               id='password'
               autoComplete='current-password'
-              onChange={formik.handleChange}
-              value={formik.values.password}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
+              onChange={props.handleChange}
+              value={props.values.password}
+              error={props.touched.password && Boolean(props.errors.password)}
+              helperText={props.touched.password && props.errors.password}
             />
             <Grid container style={{ marginTop: '1em' }}>
               <Grid item xs>
@@ -107,9 +129,9 @@ const LoginForm = () => {
               </Grid>
             </Grid>
   
-            {/* {messageLogin && (
+            {messageLogin && (
             <Alert severity={messageLogin.code}> {messageLogin.message}</Alert>
-          )} */}
+          )}
   
             <Button
               type='submit'
@@ -117,15 +139,17 @@ const LoginForm = () => {
               variant='contained'
               color='primary'
               className={classes.submit}
-            //   endIcon={
-            //       loadingLogin ? (
-            //           <CircularProgress size={20} className={classes.circuloWhite} />
-            //       ):null
-            //   }
+              endIcon={
+                  loadingLogin ? (
+                      <CircularProgress size={20} className={classes.circuloWhite} />
+                  ):null
+              }
             >
               Ingresar
             </Button>
           </form>
+            )}
+            </Formik>
         </div>
       </Container>
     );

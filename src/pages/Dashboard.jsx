@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { memo } from 'react';
+import ListCard from '../components/ListCard';
+
+
 
 const Dashboard = () => {
-    return (
-        <div>
-           hola
-        </div>
-    );
+  return (
+    <div>
+      <ListCard />
+    </div>
+  );
 };
 
-export default Dashboard;
+export default memo(Dashboard);
