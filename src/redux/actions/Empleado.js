@@ -1,14 +1,14 @@
 
 import axiosClient from "../../config/axios";
 
-export const getEmpleados = (entidad,page, size) => {
+export const getEmpleados = (page, size) => {
   return async (dispatch) => {
     dispatch({ type: "GET_EMPLEADOS_START" });
     try {
       const user = JSON.parse(sessionStorage.getItem('user'))
       const token = user.access_token
       // const response = await axiosClient.get(`api/empleados/pageable?page=${page}&size=${size}`);
-      const response = await axiosClient.get(`api/empleados/${entidad.stakeholder}/${entidad.negocio}/${entidad.sistema}/pageable?page=${page}&size=${size}`
+      const response = await axiosClient.get(`api/empleados/pageable?page=${page}&size=${size}`
       ,
       {
         headers: {

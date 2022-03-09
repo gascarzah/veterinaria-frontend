@@ -1,10 +1,6 @@
 import React from "react";
-import ListaMaestra from "../../components/Maestra/Tabla";
+import ListaAnimal from "../../components/Animal/Tabla";
 
-const mantenimiento = {
-  "codigo": 2,
-  "nombre": 'animal'
-}
 
 const Animal = () => {
 
@@ -12,7 +8,7 @@ const Animal = () => {
     <>
       <div>
         <h1>Animal</h1>
-        <ListaMaestra   mantenimiento={mantenimiento} />
+        <ListaAnimal   />
       </div>
     </>
   );

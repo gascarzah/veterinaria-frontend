@@ -12,19 +12,19 @@ const initialState = {
 
 export const AnimalReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_ANIMALS_START":
+    case "GET_ANIMALES_START":
       return {
         ...state,
         loadingList: true,
       };
 
-    case "GET_ANIMALS_SUCCESS":
+    case "GET_ANIMALES_SUCCESS":
       return {
         ...state,
         animalList: action.data,
       };
 
-    case "GET_ANIMALS_FAIL":
+    case "GET_ANIMALES_FAIL":
       return {
         ...state,
         animalList: null,
@@ -33,7 +33,7 @@ export const AnimalReducer = (state = initialState, action) => {
           message: action.message,
         },
       };
-    case "GET_ANIMALS_FINISH":
+    case "GET_ANIMALES_FINISH":
       return {
         ...state,
         loadingList: false,

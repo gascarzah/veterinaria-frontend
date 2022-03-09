@@ -1,15 +1,44 @@
 
 import axiosClient from "../../config/axios";
 
-export const getClientes = (entidad,page, size) => {
+export const getTodoClientes = () => {
   return async (dispatch) => {
     dispatch({ type: "GET_CLIENTES_START" });
     try {
       const user = JSON.parse(sessionStorage.getItem('user'))
       const token = user.access_token
-      // const response = await axiosClient.get(`api/clientes/pageable?page=${page}&size=${size}`);
-      const response = await axiosClient.get(`api/clientes/${entidad.stakeholder}/${entidad.negocio}/${entidad.sistema}/pageable?page=${page}&size=${size}`
-      ,
+      const response = await axiosClient.get(`api/clientes`,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }}
+        );
+      dispatch({
+        type: "GET_CLIENTES_SUCCESS",
+        data: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: "GET_CLIENTES_FAIL",
+        error: true,
+        message: "Ocurrio un error al obtener la cliente",
+      
+      });
+    } finally {
+      dispatch({
+        type: "GET_CLIENTES_FINISH",
+      });
+    }
+  };
+};
+
+export const getClientes = (page, size) => {
+  return async (dispatch) => {
+    dispatch({ type: "GET_CLIENTES_START" });
+    try {
+      const user = JSON.parse(sessionStorage.getItem('user'))
+      const token = user.access_token
+      const response = await axiosClient.get(`api/clientes/pageable?page=${page}&size=${size}`,
       {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -69,14 +98,17 @@ export const getCliente = (id) => {
   };
 };
 
-// export const deleteCliente = (idCliente)
+
 export const eliminarCliente = (id, page, size) => {
   return async (dispatch) => {
     dispatch({ type: "DELETE_CLIENTE_START" });
     try {
       const user = JSON.parse(sessionStorage.getItem('user'))
       const token = user.access_token
-       await axiosClient.delete(`api/clientes/${id}`)
+      await axiosClient.delete(`api/clientes/${id}`,{
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }})
        const response = await axiosClient.get(`api/clientes/pageable?page=${page}&size=${size}` ,
        {
          headers: {
@@ -116,6 +148,7 @@ export const crearCliente = (dataForm, resetForm, navigate) => {
         headers: {
           'Authorization': `Bearer ${token}`
         }})
+
     dispatch({
       type: "ADD_CLIENTE_SUCCESS",
       data: true,
@@ -128,7 +161,7 @@ export const crearCliente = (dataForm, resetForm, navigate) => {
       });
       resetForm();
       // if (errors) {
-        navigate('/list-empleado');
+        navigate('/list-cliente');
       // }
     }, 1500);
 
@@ -147,13 +180,12 @@ export const crearCliente = (dataForm, resetForm, navigate) => {
   }
 }
 
-export const actualizarCliente = (dataForm, page, size) => {
+export const actualizarCliente = (dataForm, resetForm, navigate) => {
   return async (dispatch) => {
     // console.log('5')
     dispatch({ type: "EDIT_CLIENTE_START" });
     try {
-      // console.log('actualizarCliente')
-      // console.log(dataForm)
+
       const user = JSON.parse(sessionStorage.getItem('user'))
       const token = user.access_token
       await axiosClient.put('api/clientes', dataForm ,
@@ -161,12 +193,23 @@ export const actualizarCliente = (dataForm, page, size) => {
         headers: {
           'Authorization': `Bearer ${token}`
         }})
-      //  const response = await axiosClient.get(`api/clientes/pageable?page=${page}&size=${size}`);
 
     dispatch({
       type: "EDIT_CLIENTE_SUCCESS",
       data: true
     })
+
+    setTimeout(() => {
+      dispatch({
+        type: 'CLEAR_MESSAGE_NOTIFICATION',
+      });
+      resetForm();
+      // if (errors) {
+        navigate('/list-cliente');
+      // }
+    }, 1500);
+
+
     } catch (error) {
       dispatch({
         type: "EDIT_CLIENTE_FAIL",

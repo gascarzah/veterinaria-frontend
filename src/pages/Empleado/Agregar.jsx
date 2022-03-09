@@ -1,9 +1,9 @@
 import React from 'react';
 
-import PersonaForm from '../../components/Persona/Form';
+import EmpleadoForm from '../../components/Empleado/Form';
 
 const initialValues = {
-    idPersona: '',
+    idEmpleado: '',
     nombres: '',
     apellidoPaterno: '',
     apellidoMaterno: '',
@@ -19,22 +19,14 @@ const initialValues = {
     correo: '',
 }
 
-const mantenimiento = {
-    "codigo": 1,
-    "nombre": 'empleado'
-  }
-  const entidad = {
-    stakeholder: 1,
-    negocio: 1,
-    sistema: 1
-  }
-const Agregar = () => {
+
+const AgregarEmpleado = () => {
     return (
         <div>
             <h1>Agregar Empleado</h1>
-            <PersonaForm dataForm= {initialValues} entidad={entidad} mantenimiento={mantenimiento}/>
+            <EmpleadoForm dataForm= {initialValues} />
         </div>
     );
 };
 
-export default Agregar
+export default AgregarEmpleado

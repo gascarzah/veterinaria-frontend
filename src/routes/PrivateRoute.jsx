@@ -18,21 +18,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from '../pages/listItems';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { getMenus } from '../redux/actions/Menu';
-import { useEffect } from 'react';
-import jwt_decode from "jwt-decode";
-// import Chart from './Chart';
-// import Deposits from './Deposits';
-// import Orders from './Orders';
+
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://gascarzah.com/" target={'_blank'}>
+        Giovanni Ascarza
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}

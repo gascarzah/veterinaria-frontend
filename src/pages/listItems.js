@@ -18,17 +18,18 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Orders" />
-    </ListItemButton>
+
     <ListItemButton component="a" href='/list-animal'>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Animales" />
+      <ListItemText primary="Animal" />
+    </ListItemButton>
+    <ListItemButton  component="a" href='/list-cliente'>
+      <ListItemIcon>
+        <ShoppingCartIcon />
+      </ListItemIcon>
+      <ListItemText primary="Cliente" />
     </ListItemButton>
     <ListItemButton component="a" href='/list-empleado'>
       <ListItemIcon>
@@ -36,11 +37,29 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Empleado" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton  component="a" href='/list-mascota'>
+      <ListItemIcon>
+        <ShoppingCartIcon />
+      </ListItemIcon>
+      <ListItemText primary="Mascota" />
+    </ListItemButton>
+    <ListItemButton  component="a" href='/list-raza'>
+      <ListItemIcon>
+        <ShoppingCartIcon />
+      </ListItemIcon>
+      <ListItemText primary="Raza" />
+    </ListItemButton>
+    <ListItemButton  component="a" href='/list-servicio'>
+      <ListItemIcon>
+        <ShoppingCartIcon />
+      </ListItemIcon>
+      <ListItemText primary="Servicio" />
+    </ListItemButton>
+    <ListItemButton component="a" href='/list-venta'>
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
-      <ListItemText primary="Integrations" />
+      <ListItemText primary="Venta" />
     </ListItemButton>
   </React.Fragment>
 );

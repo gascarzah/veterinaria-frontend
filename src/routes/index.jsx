@@ -14,6 +14,21 @@ import Animal from "../pages/Animal";
 
 import EditarAnimal from "../pages/Animal/Editar";
 import AgregarAnimal from "../pages/Animal/Agregar";
+import Cliente from "../pages/Cliente";
+import AgregarCliente from "../pages/Cliente/Agregar";
+import EditarCliente from "../pages/Cliente/Editar";
+import Mascota from "../pages/Mascota";
+import Raza from "../pages/Raza";
+import Servicio from "../pages/Servicio";
+import Venta from "../pages/Venta";
+import AgregarMascota from "../pages/Mascota/Agregar";
+import EditarMascota from "../pages/Mascota/Editar";
+import AgregarRaza from "../pages/Raza/Agregar";
+import EditarRaza from "../pages/Raza/Editar";
+import AgregarServicio from "../pages/Servicio/Agregar";
+import EditarServicio from "../pages/Servicio/Editar";
+import AgregarVenta from "../pages/Venta/Agregar";
+import EditarVenta from "../pages/Venta/Editar";
 
 const Rutas = () => {
   return (
@@ -40,7 +55,7 @@ const Rutas = () => {
         </Route>
         <Route
           index
-          path='/dashboard'
+          path="/dashboard"
           element={
             <PrivateRoute>
               <Dashboard />
@@ -68,7 +83,7 @@ const Rutas = () => {
 
         <Route
           index
-          path="/animal/edit/:id"
+          path="/animales/edit/:id"
           element={
             <PrivateRoute>
               <EditarAnimal />
@@ -97,10 +112,151 @@ const Rutas = () => {
 
         <Route
           index
-          path="/empleado/edit/:id"
+          path="/empleados/edit/:id"
           element={
             <PrivateRoute>
               <EditarEmpleado />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          index
+          path="/list-cliente"
+          element={
+            <PrivateRoute>
+              <Cliente />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          index
+          path="/crear-cliente"
+          element={
+            <PrivateRoute>
+              <AgregarCliente />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          index
+          path="/clientes/edit/:id"
+          element={
+            <PrivateRoute>
+              <EditarCliente />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          index
+          path="/list-mascota"
+          element={
+            <PrivateRoute>
+              <Mascota />
+            </PrivateRoute>
+          }
+        />
+         <Route
+          index
+          path="/crear-mascota"
+          element={
+            <PrivateRoute>
+              <AgregarMascota />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          index
+          path="/mascotas/edit/:id"
+          element={
+            <PrivateRoute>
+              <EditarMascota />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          index
+          path="/list-raza"
+          element={
+            <PrivateRoute>
+              <Raza />
+            </PrivateRoute>
+          }
+        />
+ <Route
+          index
+          path="/crear-raza"
+          element={
+            <PrivateRoute>
+              <AgregarRaza />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          index
+          path="/razas/edit/:id"
+          element={
+            <PrivateRoute>
+              <EditarRaza />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          index
+          path="/list-servicio"
+          element={
+            <PrivateRoute>
+              <Servicio />
+            </PrivateRoute>
+          }
+        />
+ <Route
+          index
+          path="/crear-servicio"
+          element={
+            <PrivateRoute>
+              <AgregarServicio />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          index
+          path="/servicios/edit/:id"
+          element={
+            <PrivateRoute>
+              <EditarServicio />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          index
+          path="/list-venta"
+          element={
+            <PrivateRoute>
+              <Venta />
+            </PrivateRoute>
+          }
+        />
+         <Route
+          index
+          path="/crear-venta"
+          element={
+            <PrivateRoute>
+              <AgregarVenta />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          index
+          path="/ventas/edit/:id"
+          element={
+            <PrivateRoute>
+              <EditarVenta />
             </PrivateRoute>
           }
         />

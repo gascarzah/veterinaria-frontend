@@ -1,28 +1,30 @@
-
 import {
-
+  Alert,
+  Autocomplete,
   Button,
-
+  CircularProgress,
   Container,
   CssBaseline,
   FormHelperText,
   InputLabel,
-
   MenuItem,
   Select,
   TextField,
-
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import {actualizarMascota, crearMascota, 
+import {
+  actualizarMascota,
+  crearMascota,
 } from "../../../redux/actions/Mascota";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
-import { getTodoTiposMascota } from "../../../redux/actions/TipoMascota";
-import { getRazaPorTipoMascota } from "../../../redux/actions/TipoRaza";
+
 import { useNavigate } from "react-router-dom";
+import { getTodoAnimales } from "../../../redux/actions/Animal";
+import { getRazaPorAnimal } from "../../../redux/actions/Raza";
+import { getTodoClientes } from "../../../redux/actions/Cliente";
 
 const useStyles = {
   paper: {
@@ -47,268 +49,269 @@ const useStyles = {
   },
 };
 
-
 const validationSchema = Yup.object({
-  nombre: Yup.string().required("El titulo es Obligatorio"),
+  nombre: Yup.string().required("El nombre es Obligatorio"),
   peso: Yup.string().required("El peso es Obligatoria"),
   sexo: Yup.string().required("Sexo es Obligatorio"),
-  idTipoMascota: Yup.string().required("Tipo mascota es Obligatorio"),
-  idTipoRaza: Yup.string().required("Tipo raza es Obligatorio"),
-  // tipoMascota: Yup.object().required("Mascota es Obligatorio"),
+  idAnimal: Yup.string().required("Tipo mascota es Obligatorio"),
+  idRaza: Yup.string().required("Tipo raza es Obligatorio"),
+  idCliente: Yup.string().required("Cliente es Obligatorio"),
 });
 
+const MascotaForm = ({ editar = false, dataForm }) => {
+  const state = useSelector((state) => state);
+  const { animalReducer, razaReducer, mascotaReducer, clienteReducer } = state;
 
-
-const MascotaForm = ({ editar = false, mascota }) => {
-  const state = useSelector((state) => state)
-  const {tiposMascota} = state
-  const {tiposRaza} = state
-  const {mascotaReducer} = state
-
-  const [mascotas, setMascotas] = useState([]);
+  const { clienteList } = clienteReducer;
+  const { animalList } = animalReducer;
+  const { razaList } = razaReducer;
+  const { loadingCrud, messageCrud } = mascotaReducer;
+  const [animales, setAnimales] = useState([]);
   const [razas, setRazas] = useState([]);
-  const [initialValues, setInitialValues] = useState(mascota)
+  const [clientes, setClientes] = useState([]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
 
   const loadData = () => {
-    if(editar){
-    dispatch(getRazaPorTipoMascota(mascota.idTipoMascota))
-  }
-    dispatch(getTodoTiposMascota())
-  }
-
-  useEffect(() => {
-    loadData()
-   }, []);
-
-   useEffect(() => {
-    setMascotas(tiposMascota.list.data) 
-    }, [tiposMascota.list.data]);
-
-
-   useEffect(() => {
-    setRazas(tiposRaza.list.data)
-  }, [tiposRaza.list.data]);
-
-  
-
-
-  const ejecutar = (valores) => {
-    const itemTipoMascota =  mascotas.filter((item) => {
-      return item.idTipoMascota === valores.idTipoMascota
-    })
-
-    
-
-    const itemTipoRaza =  razas.filter((item) => {
-      return item.idTipoRaza === valores.idTipoRaza
-    })
-
-    const tipoMascota = itemTipoMascota[0]
-    const tipoRaza = itemTipoRaza[0]
-
     if (editar) {
-      dispatch(actualizarMascota({ ...valores,tipoMascota,tipoRaza, navigate }));
-    } else {
-      dispatch(crearMascota({ ...valores,tipoMascota,tipoRaza, navigate }));
+      dispatch(getRazaPorAnimal(dataForm.idAnimal));
     }
-
-    setTimeout(() => {
-      dispatch({
-        type: 'CLEAR_MESSAGE_NOTIFICATION',
-      });
-      // resetForm();
-      // if (errors) {
-        navigate('/list-mascotas');
-      // }
-    }, 1500);
-    
+    dispatch(getTodoAnimales());
+    dispatch(getTodoClientes());
   };
 
+  useEffect(() => {
+    loadData();
+  }, []);
 
-  const razaPorTipoMascota = async (idTipoMascota) => {
-    
-     await dispatch(getRazaPorTipoMascota(idTipoMascota))
-  }
+  useEffect(() => {
+    setAnimales(animalList);
+  }, [animalList]);
+
+  useEffect(() => {
+    setRazas(razaList);
+  }, [razaList]);
+
+  useEffect(() => {
+    setClientes(clienteList);
+  }, [clienteList]);
+
+  const ejecutar = (valores, resetForm) => {
+    if (editar) {
+      dispatch(actualizarMascota({ ...valores }, resetForm, navigate));
+    } else {
+      dispatch(crearMascota({ ...valores }, resetForm, navigate));
+    }
+  };
+
+  const razaPorAnimal = async (idAnimal) => {
+    await dispatch(getRazaPorAnimal(idAnimal));
+  };
+
+  const getItemCliente = (idCliente) =>
+    clientes.filter((item) => {
+      return item.idCliente === idCliente;
+    });
+
+  const itemCliente = (idCliente) => {
+    return getItemCliente(idCliente)[0];
+  };
 
   return (
     <Container component="main" maxWidth="xs" style={useStyles.paper}>
       <CssBaseline />
-      {/* {console.log('mascotas')}
-      {console.log(mascotas)}
-      {console.log('razas')}
-      {console.log(razas)} */}
 
-      {mascotas && mascotas.length > 0 && (
-      <div>
-        
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={(valores) => {
-            
-            ejecutar(valores);
-          }}
-        >
-          {(props) => (
-            <form onSubmit={props.handleSubmit}>
-       
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="nombre"
-                label="Nombre"
-                name="nombre"
-                autoComplete="nombre"
-                autoFocus
-                value={props.values.nombre}
-                onChange={props.handleChange}
-                error={props.touched.nombre && Boolean(props.errors.nombre)}
-                helperText={props.touched.nombre && props.errors.nombre}
-              />
+      {animales && animales.length > 0 && (
+        <div>
+          <Formik
+            initialValues={dataForm}
+            validationSchema={validationSchema}
+            onSubmit={(valores, { resetForm }) => {
+              ejecutar(valores, resetForm);
+            }}
+          >
+            {(props) => (
+              <form onSubmit={props.handleSubmit}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="nombre"
+                  label="Nombre"
+                  name="nombre"
+                  autoComplete="nombre"
+                  autoFocus
+                  value={props.values.nombre}
+                  onChange={props.handleChange}
+                  error={props.touched.nombre && Boolean(props.errors.nombre)}
+                  helperText={props.touched.nombre && props.errors.nombre}
+                />
 
-<TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="peso"
-                label="Peso"
-                name="peso"
-                autoComplete="peso"
-                autoFocus
-                value={props.values.peso}
-                onChange={props.handleChange}
-                error={props.touched.peso && Boolean(props.errors.peso)}
-                helperText={props.touched.peso && props.errors.peso}
-              />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="peso"
+                  label="Peso"
+                  name="peso"
+                  autoComplete="peso"
+                  autoFocus
+                  value={props.values.peso}
+                  onChange={props.handleChange}
+                  error={props.touched.peso && Boolean(props.errors.peso)}
+                  helperText={props.touched.peso && props.errors.peso}
+                />
 
-     <InputLabel id="idSexo">Sexo</InputLabel>
-     <Select
-          style={{ width: "100%" }}
-          variant="outlined"
-          autoFocus
-          labelId="sexo"
-          id="sexo"
-          name="sexo"
-          value={props.values.sexo}
-          onChange={props.handleChange}
-          label="sexo"
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={0}>Hembra</MenuItem>
-          <MenuItem value={1}>Macho</MenuItem>
-        </Select>
-        {props.touched.sexo &&
-              Boolean(props.errors.sexo) &&
-              <FormHelperText style={{ color: 'red' }}>
-                {props.errors.sexo}
-                </FormHelperText>
-                }
+                <InputLabel id="idSexo">Sexo</InputLabel>
+                <Select
+                  style={{ width: "100%" }}
+                  variant="outlined"
+                  autoFocus
+                  labelId="sexo"
+                  id="sexo"
+                  name="sexo"
+                  value={props.values.sexo}
+                  onChange={props.handleChange}
+                  label="sexo"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={0}>Hembra</MenuItem>
+                  <MenuItem value={1}>Macho</MenuItem>
+                </Select>
+                {props.touched.sexo && Boolean(props.errors.sexo) && (
+                  <FormHelperText style={{ color: "red" }}>
+                    {props.errors.sexo}
+                  </FormHelperText>
+                )}
 
-        <InputLabel id="idTipoMascota">Tipo Mascota</InputLabel>
-        <Select
-        style={{ width: "100%" }}
-        variant="outlined"
-        autoFocus
-          labelId="idTipoMascota"
-          id="idTipoMascota"
-          name="idTipoMascota"
-          value={props.values.idTipoMascota}
-          label="animal"
-          // onChange={props.handleChange}
-          error={props.touched.idTipoMascota && Boolean(props.errors.idTipoMascota)}
-          onChange={async e => {
-            const { value } = e.target;
-            props.setFieldValue('idTipoMascota', value)
-            razaPorTipoMascota(value)
-          }}
-          defaultValue=''
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          
-          {  mascotas.map((item, index) => {
-                  return (
-                    <MenuItem
-                      key={item.idTipoMascota}
-                      value={item.idTipoMascota}
-                    >
-                      {item.nombre}
-                    </MenuItem>
-                  );
-                })}
-          
-        </Select>
-        {props.touched.idTipoMascota &&
-              Boolean(props.errors.idTipoMascota) &&
-              <FormHelperText style={{ color: 'red' }}>
-                {props.errors.idTipoMascota}
-                </FormHelperText>
-                }
+                <InputLabel id="idAnimal">Animal</InputLabel>
+                <Select
+                  style={{ width: "100%" }}
+                  variant="outlined"
+                  autoFocus
+                  labelId="idAnimal"
+                  id="idAnimal"
+                  name="idAnimal"
+                  value={props.values.idAnimal}
+                  label="animal"
+                  // onChange={props.handleChange}
+                  error={
+                    props.touched.idAnimal && Boolean(props.errors.idAnimal)
+                  }
+                  onChange={async (e) => {
+                    const { value } = e.target;
+                    props.setFieldValue("idAnimal", value);
+                    razaPorAnimal(value);
+                  }}
+                  defaultValue=""
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
 
+                  {animales.map((item, index) => {
+                    return (
+                      <MenuItem key={item.idAnimal} value={item.idAnimal}>
+                        {item.nombre}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+                {props.touched.idAnimal && Boolean(props.errors.idAnimal) && (
+                  <FormHelperText style={{ color: "red" }}>
+                    {props.errors.idAnimal}
+                  </FormHelperText>
+                )}
 
-<InputLabel id="idTipoRaza">Tipo Raza</InputLabel>
-        <Select
-        style={{ width: "100%" }}
-        variant="outlined"
-        autoFocus
-          labelId="idTipoRaza"
-          id="idTipoRaza"
-          name="idTipoRaza"
-          value={props.values.idTipoRaza}
-          label="animal"
-          onChange={props.handleChange}
-          error={props.touched.idTipoRaza && Boolean(props.errors.idTipoRaza)}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
+                <InputLabel id="idRaza">Raza</InputLabel>
+                <Select
+                  style={{ width: "100%" }}
+                  variant="outlined"
+                  autoFocus
+                  labelId="idRaza"
+                  id="idRaza"
+                  name="idRaza"
+                  value={props.values.idRaza}
+                  label="animal"
+                  onChange={props.handleChange}
+                  error={props.touched.idRaza && Boolean(props.errors.idRaza)}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
 
-          { razas && razas.length > 0 && razas.map((item, index) => {
-            
-                  return (
-                    <MenuItem
-                      key={item.idTipoRaza}
-                      value={item.idTipoRaza}
-                    >
-                      {item.nombre}
-                    </MenuItem>
-                  );
-                })}
-        </Select>
-        {props.touched.idTipoRaza &&
-              Boolean(props.errors.idTipoRaza) &&
-              <FormHelperText style={{ color: 'red' }}>
-                {props.errors.idTipoRaza}
-                </FormHelperText>
-                }
+                  {razas &&
+                    razas.length > 0 &&
+                    razas.map((item, index) => {
+                      return (
+                        <MenuItem key={item.idRaza} value={item.idRaza}>
+                          {item.nombre}
+                        </MenuItem>
+                      );
+                    })}
+                </Select>
+                {props.touched.idRaza && Boolean(props.errors.idRaza) && (
+                  <FormHelperText style={{ color: "red" }}>
+                    {props.errors.idRaza}
+                  </FormHelperText>
+                )}
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                // endIcon={
-                //   loading ?(
-                //     <CircularProgress size={20} />
-                //   ): null
-                // }
-              >
-                {editar ? "Editar" : "Crear"}
-              </Button>
-            </form>
-          )}
-        </Formik>
-        
-      </div>
-    )}
+                {clientes && clientes.length > 0 && (
+                  <Autocomplete
+                    freeSolo
+                    id="free-solo-2-demo"
+                    disableClearable
+                    onChange={(event, obj) =>
+                      props.setFieldValue("idCliente", obj.idCliente)
+                    }
+                    getOptionLabel={(cliente) =>
+                      cliente.apellidoPaterno +
+                      " " +
+                      cliente.apellidoMaterno +
+                      ", " +
+                      cliente.nombres
+                    }
+                    defaultValue={""}
+                    value={
+                      props.values.idCliente
+                        ? itemCliente(props.values.idCliente)
+                        : null
+                    }
+                    options={clientes}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Buscar Cliente"
+                        InputProps={{
+                          ...params.InputProps,
+                          type: "search",
+                        }}
+                      />
+                    )}
+                  />
+                )}
+                {messageCrud && (
+                  <Alert severity={messageCrud.code}>
+                    {messageCrud.message}
+                  </Alert>
+                )}
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  endIcon={loadingCrud ? <CircularProgress size={20} /> : null}
+                >
+                  {editar ? "Editar" : "Crear"}
+                </Button>
+              </form>
+            )}
+          </Formik>
+        </div>
+      )}
     </Container>
   );
 };

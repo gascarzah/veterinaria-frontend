@@ -36,16 +36,16 @@ const headCells = [
     label: "Nombre",
   },
   {
-    id: "tipoMascota",
+    id: "animal",
     numeric: false,
     disablePadding: false,
-    label: "Tipo de Mascota",
+    label: "Animal",
   },
   {
-    id: "tipoRaza",
+    id: "raza",
     numeric: false,
     disablePadding: false,
-    label: "Tipo de Raza",
+    label: "Raza",
   },
   {
     id: "peso",
@@ -54,7 +54,12 @@ const headCells = [
     label: "Peso",
   },
 
- 
+  {
+    id: "dueno",
+    numeric: false,
+    disablePadding: false,
+    label: "Dueno",
+  },
 ];
 
 function stableSort(array, comparator) {
@@ -115,7 +120,7 @@ const TablaMascota = () => {
 
 
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  
      
 
   useEffect(() => {
@@ -315,11 +320,12 @@ const TablaMascota = () => {
                       tabIndex={-1}
                       key={row.idMascota}
                     >
-                      {/* {console.log(row)} */}
+                     
                       <TableCell align="left">{row.nombre}</TableCell>
-                      <TableCell align="left">{row.tipoRaza.tipoMascota.nombre}</TableCell>
-                      <TableCell align="left">{row.tipoRaza.nombre}</TableCell>
+                      <TableCell align="left">{row.raza.animal.nombre}</TableCell>
+                      <TableCell align="left">{row.raza.nombre}</TableCell>
                       <TableCell align="left">{row.peso}</TableCell>
+                      <TableCell align="left">{row.cliente.apellidoPaterno} {row.cliente.apellidoMaterno}, {row.cliente.nombres}</TableCell>
                       <TableCell align="right">
                         <Button size="small">Ver</Button>
                       </TableCell>
@@ -328,7 +334,7 @@ const TablaMascota = () => {
                           size="small"
                           color="primary"
                           component={Link}
-                          to={`/mascota/edit/${row.idMascota}`}
+                          to={`/mascotas/edit/${row.idMascota}`}
                         >
                           Editar
                         </Button>

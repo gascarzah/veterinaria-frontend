@@ -3,12 +3,17 @@ import axiosClient from "../../config/axios";
 
 
 
-export const getServicios = (idServicioPadre, page, size) => {
+export const getServicios = (page, size) => {
   return async (dispatch) => {
     dispatch({ type: "GET_SERVICIOS_START" });
     try {
-      
-      const response = await axiosClient.get(`api/servicios/${idServicioPadre}/pageable?page=${page}&size=${size}`);
+      const user = JSON.parse(sessionStorage.getItem('user'))
+      const token = user.access_token
+      const response = await axiosClient.get(`api/servicios/pageable?page=${page}&size=${size}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }});
       dispatch({
         type: "GET_SERVICIOS_SUCCESS",
         data: response.data,
@@ -34,9 +39,14 @@ export const getServicio = (id) => {
 
     dispatch({ type: "GET_SERVICIO_START" });
     try {
+      const user = JSON.parse(sessionStorage.getItem('user'))
+      const token = user.access_token
       const response = await axiosClient.get(
-        `api/servicios/${id}`
-      );
+        `api/servicios/${id}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }});
       dispatch({
         type: "GET_SERVICIO_SUCCESS",
         data: response.data,
@@ -58,12 +68,22 @@ export const getServicio = (id) => {
 };
 
 // export const deleteServicio = (idServicio)
-export const eliminarServicio = (idServicioPadre,id, page, size) => {
+export const eliminarServicio = (id, page, size) => {
   return async (dispatch) => {
     dispatch({ type: "DELETE_SERVICIO_START" });
     try {
-       await axiosClient.delete(`api/servicios/${id}`)
-       const response = await axiosClient.get(`api/servicios/${idServicioPadre}/pageable?page=${page}&size=${size}`);
+      const user = JSON.parse(sessionStorage.getItem('user'))
+      const token = user.access_token
+       await axiosClient.delete(`api/servicios/${id}`,
+       {
+         headers: {
+           'Authorization': `Bearer ${token}`
+         }});
+       const response = await axiosClient.get(`api/servicios/pageable?page=${page}&size=${size}`,
+       {
+         headers: {
+           'Authorization': `Bearer ${token}`
+         }});
       //  const response = arrayList.filter((obj) => obj.idServicio !== id)
       
       
@@ -86,30 +106,35 @@ export const eliminarServicio = (idServicioPadre,id, page, size) => {
   }
 }
 
-export const crearServicio = (dataForm) => {
+export const crearServicio = (dataForm, resetForm, navigate) => {
   return async (dispatch) => {
-    console.log('dentro d crearservicio')
-    console.log(dataForm)
+
     dispatch({ type: "ADD_SERVICIO_START" });
     try {
+      const user = JSON.parse(sessionStorage.getItem('user'))
+      const token = user.access_token
 
+      await axiosClient.post('api/servicios', dataForm,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }});
 
-      await axiosClient.post('api/servicios', dataForm)
     dispatch({
       type: "ADD_SERVICIO_SUCCESS",
       data: true,
     })
 
     
-    // setTimeout(() => {
-      // dispatch({
-      //   type: 'CLEAR_MESSAGE_NOTIFICATION',
-      // });
-      // resetForm();
+    setTimeout(() => {
+      dispatch({
+        type: 'CLEAR_MESSAGE_NOTIFICATION',
+      });
+      resetForm();
       // if (errors) {
-        // navigate('/list-servicios');
+        navigate('/list-servicio');
       // }
-    // }, 1500);
+    }, 1500);
 
     } catch (error) {
       console.log(error)
@@ -126,20 +151,35 @@ export const crearServicio = (dataForm) => {
   }
 }
 
-export const actualizarServicio = (dataForm, page, size) => {
+export const actualizarServicio = (dataForm, resetForm, navigate) => {
   return async (dispatch) => {
-    // console.log('5')
+    
     dispatch({ type: "EDIT_SERVICIO_START" });
     try {
-      // console.log('actualizarServicio')
-      // console.log(dataForm)
-      await axiosClient.put('api/servicios', dataForm)
+      const user = JSON.parse(sessionStorage.getItem('user'))
+      const token = user.access_token
+      await axiosClient.put('api/servicios', dataForm,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }});
       //  const response = await axiosClient.get(`api/servicios/pageable?page=${page}&size=${size}`);
 
     dispatch({
       type: "EDIT_SERVICIO_SUCCESS",
       data: true
     })
+
+    setTimeout(() => {
+      dispatch({
+        type: 'CLEAR_MESSAGE_NOTIFICATION',
+      });
+      resetForm();
+      // if (errors) {
+        navigate('/list-servicio');
+      // }
+    }, 1500);
+
     } catch (error) {
       dispatch({
         type: "EDIT_SERVICIO_FAIL",
