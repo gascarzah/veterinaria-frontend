@@ -7,13 +7,13 @@ export const getVentas = (page, size) => {
   return async (dispatch) => {
     dispatch({ type: "GET_VENTAS_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
-      const response = await axiosClient.get(`api/ventas/pageable?page=${page}&size=${size}`,
-      {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const token = user.access_token;
+      const response = await axiosClient.get(`api/ventas/pageable?page=${page}&size=${size}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }});
+          Authorization: `Bearer ${token}`,
+        },
+      });
       dispatch({
         type: "GET_VENTAS_SUCCESS",
         data: response.data,
@@ -39,14 +39,14 @@ export const getVenta = (id) => {
 
     dispatch({ type: "GET_VENTA_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const token = user.access_token;
       const response = await axiosClient.get(
-        `api/ventas/${id}`,
-        {
+        `api/ventas/${id}`, {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }});
+            Authorization: `Bearer ${token}`,
+          },
+        });
       dispatch({
         type: "GET_VENTA_SUCCESS",
         data: response.data,
@@ -72,18 +72,18 @@ export const eliminarVenta = (id, page, size) => {
   return async (dispatch) => {
     dispatch({ type: "DELETE_VENTA_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
-       await axiosClient.delete(`api/ventas/${id}`,
-       {
-         headers: {
-           'Authorization': `Bearer ${token}`
-         }});
-       const response = await axiosClient.get(`api/ventas/pageable?page=${page}&size=${size}`,
-       {
-         headers: {
-           'Authorization': `Bearer ${token}`
-         }});
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const token = user.access_token;
+       await axiosClient.delete(`api/ventas/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+       const response = await axiosClient.get(`api/ventas/pageable?page=${page}&size=${size}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       //  const response = arrayList.filter((obj) => obj.idVenta !== id)
       
       
@@ -111,14 +111,14 @@ export const crearVenta = (dataForm, resetForm, navigate) => {
  
     dispatch({ type: "ADD_VENTA_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const token = user.access_token;
 
-      await axiosClient.post('api/ventas', dataForm,
-      {
+      await axiosClient.post('api/ventas', dataForm, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }});
+          Authorization: `Bearer ${token}`,
+        },
+      });
     dispatch({
       type: "ADD_VENTA_SUCCESS",
       data: true,
@@ -155,13 +155,13 @@ export const actualizarVenta = (dataForm, resetForm, navigate) => {
     // console.log('5')
     dispatch({ type: "EDIT_VENTA_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
-      await axiosClient.put('api/ventas', dataForm,
-      {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const token = user.access_token;
+      await axiosClient.put('api/ventas', dataForm, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }});
+          Authorization: `Bearer ${token}`,
+        },
+      });
       //  const response = await axiosClient.get(`api/ventas/pageable?page=${page}&size=${size}`);
 
     dispatch({

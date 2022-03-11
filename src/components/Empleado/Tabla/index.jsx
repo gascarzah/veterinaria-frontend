@@ -37,6 +37,18 @@ const headCells = [
     disablePadding: false,
     label: "Nombre",
   },
+  {
+    id: "apellidoPaterno",
+    numeric: false,
+    disablePadding: false,
+    label: "Apellido Paterno",
+  },
+  {
+    id: "apellidoMaterno",
+    numeric: false,
+    disablePadding: false,
+    label: "Apellido Materno",
+  },
 ];
 
 const stableSort = (array, comparator) => {
@@ -189,9 +201,9 @@ const ListaEmpleado = () => {
       }
 
       setPage(update);
-      dispatch(eliminarEmpleado(data.idTipoEmpleado, update, rowsPerPage));
+      dispatch(eliminarEmpleado(data.idEmpleado, update, rowsPerPage));
     } else {
-      dispatch(eliminarEmpleado(data.idTipoEmpleado, page, rowsPerPage));
+      dispatch(eliminarEmpleado(data.idEmpleado, page, rowsPerPage));
     }
 
     cerrarModalEliminar();
@@ -269,7 +281,8 @@ const ListaEmpleado = () => {
                     >
 
                       <TableCell align="left">{row.nombres}</TableCell>
-                      <TableCell align="left">{row.descripcion}</TableCell>
+                      <TableCell align="left">{row.apellidoPaterno}</TableCell>
+                      <TableCell align="left">{row.apellidoMaterno}</TableCell>
                       <TableCell align="right">
                         <Button size="small">Ver</Button>
                       </TableCell>

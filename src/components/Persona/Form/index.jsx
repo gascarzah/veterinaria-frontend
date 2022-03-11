@@ -66,13 +66,9 @@ const PersonaForm = ({ editar = false, dataForm, entidad, mantenimiento }) => {
     loadingSexo,
     sexoList,
     messageSexo } = maestraReducer;
-  console.log('messageCrud')
-  console.log(messageCrud)
+
   const navigate = useNavigate()
 
-console.log('maestraReducer')
-console.log(maestraReducer)
-  // 
  
   const [sexos, setSexos] = useState([]);
   const [tipoDocumentos, setTipoDocumentos] = useState([]);

@@ -46,35 +46,36 @@ const useStyles = {
 const validationSchema = Yup.object({
   nombres: Yup.string().required("El titulo es Obligatorio"),
   apellidoPaterno: Yup.string().required("El apellido paterno es Obligatoria"),
-  apellidoMaterno: Yup.string().required(
-    "Tipo apellido materno es Obligatorio"
-  ),
+  apellidoMaterno: Yup.string().required("Tipo apellido materno es Obligatorio"),
   tipoDocumento: Yup.string().required("Tipo de documento es Obligatorio"),
   numeroDocumento: Yup.string().required("Numero de documento es Obligatorio"),
   sexo: Yup.string().required("Sexo es Obligatorio"),
   telefono: Yup.string().required("Telefono es Obligatorio"),
-  celular: Yup.string().notRequired(),
+  // celular: Yup.string().notRequired(),
   correo: Yup.string().required("Correo es Obligatorio"),
-  ruc: Yup.string().notRequired(),
-  razonSocial: Yup.string().notRequired(),
+  // ruc: Yup.string().notRequired(),
+  // razonSocial: Yup.string().notRequired(),
   direccion: Yup.string().notRequired(),
-  observacion: Yup.string().notRequired(),
+  // observacion: Yup.string().notRequired(),
 });
 const EmpleadoForm = ({ editar = false, dataForm, entidad, mantenimiento }) => {
   const state = useSelector((state) => state);
   const { empleadoReducer } = state;
   const { messageCrud } = empleadoReducer;
 
-  console.log("messageCrud");
-  console.log(messageCrud);
+  // console.log("messageCrud");
+  // console.log(messageCrud);
   const navigate = useNavigate();
 
   const ejecutar = (valores, resetForm) => {
-    if (editar) {
-      dispatch(actualizarEmpleado({ ...valores }, resetForm, navigate));
-    } else {
-      dispatch(crearEmpleado({ ...valores }, resetForm, navigate));
-    }
+    
+      if (editar) {
+        dispatch(actualizarEmpleado({ ...valores }, resetForm, navigate));
+      } else {
+        dispatch(crearEmpleado({ ...valores }, resetForm, navigate));
+      }  
+    
+    
   };
 
   const dispatch = useDispatch();

@@ -37,6 +37,18 @@ const headCells = [
     disablePadding: false,
     label: "Nombre",
   },
+  {
+    id: "apellidoPaterno",
+    numeric: false,
+    disablePadding: false,
+    label: "Apellido Paterno",
+  },
+  {
+    id: "apellidoMaterno",
+    numeric: false,
+    disablePadding: false,
+    label: "Apellido Materno",
+  },
 ];
 
 const stableSort = (array, comparator) => {
@@ -269,7 +281,8 @@ const ListaCliente = () => {
                     >
 
                       <TableCell align="left">{row.nombres}</TableCell>
-                      <TableCell align="left">{row.descripcion}</TableCell>
+                      <TableCell align="left">{row.apellidoPaterno}</TableCell>
+                      <TableCell align="left">{row.apellidoMaterno}</TableCell>
                       <TableCell align="right">
                         <Button size="small">Ver</Button>
                       </TableCell>

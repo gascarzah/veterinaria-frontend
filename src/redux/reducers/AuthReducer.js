@@ -35,12 +35,7 @@ export const AuthReducer = (state = initialState, action) => {
         messageLogin: null,
         user: user,
       };
-      // localStorage.setItem('user', JSON.stringify(user));
-      // return {
-      //   ...state,
-      //   auth: action.data,
-        
-      // };
+
 
     case "GET_AUTH_FAIL":
       return {

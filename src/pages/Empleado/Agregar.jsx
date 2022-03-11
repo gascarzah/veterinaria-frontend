@@ -11,11 +11,11 @@ const initialValues = {
     numeroDocumento: '',
     sexo: '',
     telefono: '',
-    celular: '',
-    ruc: '',
-    razonSocial: '',
+    // celular: '',
+    // ruc: '',
+    // razonSocial: '',
     direccion: '',
-    observacion: '',
+    // observacion: '',
     correo: '',
 }
 

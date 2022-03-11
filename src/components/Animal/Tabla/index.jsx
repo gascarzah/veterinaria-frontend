@@ -25,7 +25,6 @@ import { Link } from "react-router-dom";
 import {
   getAnimales,
   eliminarAnimal,
-  getAnimal,
 } from "../../../redux/actions/Animal";
 import TablaHeader from "../../TablaHeader";
 
@@ -35,6 +34,12 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: "Nombre",
+  },
+  {
+    id: "descripcion",
+    numeric: false,
+    disablePadding: false,
+    label: "Descripcion",
   },
 ];
 

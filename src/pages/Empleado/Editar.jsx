@@ -23,8 +23,19 @@ const EditarEmpleado = () => {
     if (loadingCrud) {
       setEditInitialValues({
         idEmpleado: empleado.idEmpleado,
-        nombre: empleado.nombre,
-        descripcion: empleado.descripcion,
+        nombres: empleado.nombres,
+        apellidoPaterno: empleado.apellidoPaterno,
+        apellidoMaterno: empleado.apellidoMaterno,
+        tipoDocumento: empleado.tipoDocumento,
+        numeroDocumento: empleado.numeroDocumento,
+        sexo: empleado.sexo,
+        telefono: empleado.telefono,
+        // celular: empleado.celular,
+        // ruc: empleado.ruc,
+        // razonSocial: empleado.razonSocial,
+        direccion: empleado.direccion,
+        // observacion: empleado.observacion,
+        correo: empleado.correo,
       });
     }
   }, [empleado]);
@@ -35,11 +46,7 @@ const EditarEmpleado = () => {
     <div>
       <h1>Editar Empleado</h1>
       {editInitialValues && (
-        <EmpleadoForm
-          editar={true}
-          dataForm={editInitialValues}
-          
-        />
+        <EmpleadoForm editar={true} dataForm={editInitialValues} />
       )}
     </div>
   );

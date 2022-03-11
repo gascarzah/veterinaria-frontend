@@ -8,9 +8,7 @@ export const getMenus = (usuario) => {
     dispatch({ type: "GET_MENU_START" });
     try {
       const response = await axiosClient.get("/api/menu", usuario);
-   
-      console.log('respuesta')
-      console.log(response)
+
       dispatch({
         type: "GET_MENU_SUCCESS",
         data: response.data,

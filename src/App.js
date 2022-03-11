@@ -5,6 +5,9 @@ import { store } from "./redux/store/store";
 import {ErrorBoundary} from 'react-error-boundary'
 import Rutas from "./routes";
 
+
+
+
 function ErrorFallback({error}) {
   return (
     <div role="alert">

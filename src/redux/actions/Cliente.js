@@ -5,14 +5,13 @@ export const getTodoClientes = () => {
   return async (dispatch) => {
     dispatch({ type: "GET_CLIENTES_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
-      const response = await axiosClient.get(`api/clientes`,
-      {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const token = user.access_token;
+      const response = await axiosClient.get(`api/clientes`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }}
-        );
+          Authorization: `Bearer ${token}`,
+        },
+      });
       dispatch({
         type: "GET_CLIENTES_SUCCESS",
         data: response.data,
@@ -36,14 +35,13 @@ export const getClientes = (page, size) => {
   return async (dispatch) => {
     dispatch({ type: "GET_CLIENTES_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
-      const response = await axiosClient.get(`api/clientes/pageable?page=${page}&size=${size}`,
-      {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const token = user.access_token;
+      const response = await axiosClient.get(`api/clientes/pageable?page=${page}&size=${size}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }}
-        );
+          Authorization: `Bearer ${token}`,
+        },
+      });
       dispatch({
         type: "GET_CLIENTES_SUCCESS",
         data: response.data,
@@ -69,15 +67,13 @@ export const getCliente = (id) => {
 
     dispatch({ type: "GET_CLIENTE_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
-      const response = await axiosClient.get(
-        `api/clientes/${id}` ,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }}
-      );
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const token = user.access_token;
+      const response = await axiosClient.get(`api/clientes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       dispatch({
         type: "GET_CLIENTE_SUCCESS",
         data: response.data,
@@ -103,17 +99,18 @@ export const eliminarCliente = (id, page, size) => {
   return async (dispatch) => {
     dispatch({ type: "DELETE_CLIENTE_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
-      await axiosClient.delete(`api/clientes/${id}`,{
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const token = user.access_token;
+      await axiosClient.delete(`api/clientes/${id}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }})
-       const response = await axiosClient.get(`api/clientes/pageable?page=${page}&size=${size}` ,
-       {
-         headers: {
-           'Authorization': `Bearer ${token}`
-         }});
+          Authorization: `Bearer ${token}`,
+        },
+      });
+       const response = await axiosClient.get(`api/clientes/pageable?page=${page}&size=${size}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       //  const response = arrayList.filter((obj) => obj.idCliente !== id)
       
       
@@ -141,13 +138,13 @@ export const crearCliente = (dataForm, resetForm, navigate) => {
     
     dispatch({ type: "ADD_CLIENTE_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
-
-      await axiosClient.post('api/clientes', dataForm,  {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const token = user.access_token;
+      await axiosClient.post('api/clientes', dataForm, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }})
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
     dispatch({
       type: "ADD_CLIENTE_SUCCESS",
@@ -182,17 +179,16 @@ export const crearCliente = (dataForm, resetForm, navigate) => {
 
 export const actualizarCliente = (dataForm, resetForm, navigate) => {
   return async (dispatch) => {
-    // console.log('5')
+
     dispatch({ type: "EDIT_CLIENTE_START" });
     try {
-
-      const user = JSON.parse(sessionStorage.getItem('user'))
-      const token = user.access_token
-      await axiosClient.put('api/clientes', dataForm ,
-      {
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const token = user.access_token;
+      await axiosClient.put('api/clientes', dataForm , {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }})
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
     dispatch({
       type: "EDIT_CLIENTE_SUCCESS",

@@ -25,7 +25,6 @@ import { Link } from "react-router-dom";
 import {
   getServicios,
   eliminarServicio,
-  getServicio,
 } from "../../../redux/actions/Servicio";
 import TablaHeader from "../../TablaHeader";
 
@@ -35,6 +34,12 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: "Nombre",
+  },
+  {
+    id: "descripcion",
+    numeric: false,
+    disablePadding: false,
+    label: "descripcion",
   },
 ];
 
@@ -276,7 +281,7 @@ const ListaServicio = () => {
                           size="small"
                           color="primary"
                           component={Link}
-                          to={`/servicioes/edit/${row.idServicio}`}
+                          to={`/servicios/edit/${row.idServicio}`}
                         >
                           Editar
                         </Button>
