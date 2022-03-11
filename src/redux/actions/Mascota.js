@@ -5,13 +5,8 @@ export const getMascotas = (page, size) => {
   return async (dispatch) => {
     dispatch({ type: "GET_MASCOTAS_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      const response = await axiosClient.get(`api/mascotas/pageable?page=${page}&size=${size}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      const response = await axiosClient.get(`api/mascotas/pageable?page=${page}&size=${size}`);
       dispatch({
         type: "GET_MASCOTAS_SUCCESS",
         data: response.data,
@@ -37,13 +32,8 @@ export const getMascota = (id) => {
 
     dispatch({ type: "GET_MASCOTA_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      const response = await axiosClient.get(`api/mascotas/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+     
+      const response = await axiosClient.get(`api/mascotas/${id}`);
       dispatch({
         type: "GET_MASCOTA_SUCCESS",
         data: response.data,
@@ -69,18 +59,9 @@ export const eliminarMascota = (id, page, size) => {
   return async (dispatch) => {
     dispatch({ type: "DELETE_MASCOTA_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-       await axiosClient.delete(`api/mascotas/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-       const response = await axiosClient.get(`api/mascotas/pageable?page=${page}&size=${size}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  
+       await axiosClient.delete(`api/mascotas/${id}`);
+       const response = await axiosClient.get(`api/mascotas/pageable?page=${page}&size=${size}`);
       //  const response = arrayList.filter((obj) => obj.idMascota !== id)
       
       
@@ -108,13 +89,8 @@ export const crearMascota = (dataForm, resetForm, navigate) => {
     
     dispatch({ type: "ADD_MASCOTA_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      await axiosClient.post('api/mascotas', dataForm, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      
+      await axiosClient.post('api/mascotas', dataForm);
 
     dispatch({
       type: "ADD_MASCOTA_SUCCESS",
@@ -152,13 +128,8 @@ export const actualizarMascota = (dataForm, resetForm, navigate) => {
     
     dispatch({ type: "EDIT_MASCOTA_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      await axiosClient.put('api/mascotas', dataForm, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      
+      await axiosClient.put('api/mascotas', dataForm);
      
     dispatch({
       type: "EDIT_MASCOTA_SUCCESS",

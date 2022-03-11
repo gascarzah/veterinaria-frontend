@@ -5,13 +5,8 @@ export const getRazas = ( page, size) => {
   return async (dispatch) => {
     dispatch({ type: "GET_RAZAS_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      const response = await axiosClient.get(`api/razas/pageable?page=${page}&size=${size}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    
+      const response = await axiosClient.get(`api/razas/pageable?page=${page}&size=${size}`);
       dispatch({
         type: "GET_RAZAS_SUCCESS",
         data: response.data,
@@ -37,13 +32,8 @@ export const getRaza = (id) => {
 
     dispatch({ type: "GET_RAZA_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      const response = await axiosClient.get(`api/razas/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      
+      const response = await axiosClient.get(`api/razas/${id}`);
       dispatch({
         type: "GET_RAZA_SUCCESS",
         data: response.data,
@@ -69,18 +59,9 @@ export const eliminarRaza = (id, page, size) => {
   return async (dispatch) => {
     dispatch({ type: "DELETE_RAZA_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-       await axiosClient.delete(`api/razas/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-       const response = await axiosClient.get(`api/razas/pageable?page=${page}&size=${size}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      
+       await axiosClient.delete(`api/razas/${id}`);
+       const response = await axiosClient.get(`api/razas/pageable?page=${page}&size=${size}`);
       //  const response = arrayList.filter((obj) => obj.idRaza !== id)
       
       
@@ -108,13 +89,8 @@ export const crearRaza = (dataForm, resetForm, navigate) => {
     
     dispatch({ type: "ADD_RAZA_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      await axiosClient.post('api/razas', dataForm, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+     
+      await axiosClient.post('api/razas', dataForm);
     dispatch({
       type: "ADD_RAZA_SUCCESS",
       data: true,
@@ -151,13 +127,8 @@ export const actualizarRaza = (dataForm, resetForm, navigate) => {
     
     dispatch({ type: "EDIT_RAZA_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      await axiosClient.put('api/razas', dataForm, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+     
+      await axiosClient.put('api/razas', dataForm);
      
     dispatch({
       type: "EDIT_RAZA_SUCCESS",
@@ -193,13 +164,8 @@ export const getRazaPorAnimal = (idAnimal) => {
   return async (dispatch) => {
     dispatch({ type: "GET_RAZA_POR_ANIMAL_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      const response = await axiosClient.get(`api/razas/getByIdAnimal/${idAnimal}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      
+      const response = await axiosClient.get(`api/razas/getByIdAnimal/${idAnimal}`);
       
       dispatch({
         type: "GET_RAZA_POR_ANIMAL_SUCCESS",

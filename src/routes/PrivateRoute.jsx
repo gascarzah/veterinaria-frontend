@@ -20,7 +20,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from '../pages/listItems';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import jwt_decode from "jwt-decode";
+
 
 function Copyright(props) {
   return (
@@ -84,35 +84,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 const PrivateRoute = ({ children }) => {
+const user = JSON.parse(sessionStorage.getItem('user'))
+console.log('user')
+console.log(user)
 
-    const state = useSelector((state) => state);
-  const { authReducer } = state;
-  const { user } = authReducer;
+    // const state = useSelector((state) => state);
+  // const { authReducer } = state;
+  // const { user } = authReducer;
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  console.log('user')
-  console.log(user.access_token)
-  console.log(jwt_decode(user.access_token))
-
-  const checkAuth = () => {
-    console.log('entra')
-    const token = user.access_token;
-    if (!token) {
-      return false;
-    }
-
-    try {
-      let payload = jwt_decode(token);
-      if (payload.exp < new Date().getTime() / 1000) {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
-    return true;
-  }
+  
 
 
 
@@ -200,8 +183,8 @@ const PrivateRoute = ({ children }) => {
                     
                   }}
                 >
-                  {/* {console.log('usuario logeado o no')} */}
-                  {/* {console.log(user.logged)} */}
+                  {console.log('usuario logeado o no')}
+                  {console.log(user.logged)}
                     {user.logged ? children : <Navigate to='/' />}
                     {/* {checkAuth ? children : <Navigate to='/' />} */}
                   {/* <Chart /> */}

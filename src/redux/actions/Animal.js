@@ -4,26 +4,21 @@ export const getTodoAnimales = () => {
   return async (dispatch) => {
     dispatch({ type: "GET_ANIMALES_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
+    
 
-      const response = await axiosClient.get(`api/animales`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axiosClient.get(`api/animales`);
 
       dispatch({
         type: "GET_ANIMALES_SUCCESS",
         data: response.data,
       });
     } catch (error) {
-      if (error.response) {
-        // Request made and server responded
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      }
+      // if (error.response) {
+      //   // Request made and server responded
+      //   console.log(error.response.data);
+      //   console.log(error.response.status);
+      //   console.log(error.response.headers);
+      // }
       dispatch({
         type: "GET_ANIMALES_FAIL",
         error: true,
@@ -41,15 +36,8 @@ export const getAnimales = (page, size) => {
   return async (dispatch) => {
     dispatch({ type: "GET_ANIMALES_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      const response = await axiosClient.get(
-        `api/animales/pageable?page=${page}&size=${size}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        const response = await axiosClient.get(
+        `api/animales/pageable?page=${page}&size=${size}`
       );
 
       dispatch({
@@ -57,13 +45,13 @@ export const getAnimales = (page, size) => {
         data: response.data,
       });
     } catch (error) {
-      if (error.response) {
-        const {error_message} = error.response.data
-        console.log('in error animal')
-        console.log(error_message);
-        // console.log(error.response.status);
-        // console.log(error.response.headers);
-      }
+      // if (error.response) {
+      //   const {error_message} = error.response.data
+      //   console.log('in error animal')
+      //   console.log(error_message);
+      //   // console.log(error.response.status);
+      //   // console.log(error.response.headers);
+      // }
       dispatch({
         type: "GET_ANIMALES_FAIL",
         error: true,
@@ -81,13 +69,8 @@ export const getAnimal = (id) => {
   return async (dispatch) => {
     dispatch({ type: "GET_ANIMAL_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      const response = await axiosClient.get(`api/animales/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      const response = await axiosClient.get(`api/animales/${id}`);
       dispatch({
         type: "GET_ANIMAL_SUCCESS",
         data: response.data,
@@ -111,21 +94,11 @@ export const eliminarAnimal = (id, page, size) => {
   return async (dispatch) => {
     dispatch({ type: "DELETE_ANIMAL_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      await axiosClient.delete(`api/animales/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      await axiosClient.delete(`api/animales/${id}`);
 
       const response = await axiosClient.get(
-        `api/animales/pageable?page=${page}&size=${size}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `api/animales/pageable?page=${page}&size=${size}`
       );
       //  const response = arrayList.filter((obj) => obj.idAnimal !== id)
 
@@ -150,13 +123,8 @@ export const crearAnimal = (dataForm, resetForm, navigate) => {
   return async (dispatch) => {
     dispatch({ type: "ADD_ANIMAL_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      await axiosClient.post("api/animales", dataForm, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      await axiosClient.post("api/animales", dataForm);
 
       dispatch({
         type: "ADD_ANIMAL_SUCCESS",
@@ -190,13 +158,8 @@ export const actualizarAnimal = (dataForm, resetForm, navigate) => {
   return async (dispatch) => {
     dispatch({ type: "EDIT_ANIMAL_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      await axiosClient.put("api/animales", dataForm, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      await axiosClient.put("api/animales", dataForm);
 
       dispatch({
         type: "EDIT_ANIMAL_SUCCESS",

@@ -54,7 +54,13 @@ export const AuthReducer = (state = initialState, action) => {
     //     loadingLogin: false,
     //     // isLogged: false
     //   };
-
+    case "LOGOUT":
+      sessionStorage.removeItem("user");
+      return {
+        ...state,
+        user: { logged: false }
+        
+      };
     
     case "CLEAR_MESSAGE_NOTIFICATION":
       return {

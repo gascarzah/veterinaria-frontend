@@ -126,8 +126,8 @@ const LoginForm = () => {
                 </Grid>
               </Grid>
 
-              {console.log('messageLogin')}
-              {console.log(messageLogin)}
+              {/* {console.log('messageLogin')}
+              {console.log(messageLogin)} */}
               {messageLogin  && (
                 <Alert severity={messageLogin.code}>
                   {" "}

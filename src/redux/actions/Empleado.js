@@ -4,13 +4,8 @@ export const getEmpleados = (page, size) => {
   return async (dispatch) => {
     dispatch({ type: "GET_EMPLEADOS_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      const response = await axiosClient.get(`api/empleados/pageable?page=${page}&size=${size}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+     
+      const response = await axiosClient.get(`api/empleados/pageable?page=${page}&size=${size}`);
       
       dispatch({
         type: "GET_EMPLEADOS_SUCCESS",
@@ -40,13 +35,8 @@ export const getEmpleado = (id) => {
 
     dispatch({ type: "GET_EMPLEADO_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      const response = await axiosClient.get(`api/empleados/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      
+      const response = await axiosClient.get(`api/empleados/${id}`);
       dispatch({
         type: "GET_EMPLEADO_SUCCESS",
         data: response.data,
@@ -72,15 +62,10 @@ export const eliminarEmpleado = (id, page, size) => {
   return async (dispatch) => {
     dispatch({ type: "DELETE_EMPLEADO_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
+      
        await axiosClient.delete(`api/empleados/${id}`)
 
-       const response = await axiosClient.get(`api/empleados/pageable?page=${page}&size=${size}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+       const response = await axiosClient.get(`api/empleados/pageable?page=${page}&size=${size}`);
       //  const response = arrayList.filter((obj) => obj.idEmpleado !== id)
       
       
@@ -108,13 +93,8 @@ export const crearEmpleado = (dataForm, resetForm, navigate) => {
     
     dispatch({ type: "ADD_EMPLEADO_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      await axiosClient.post('api/empleados', dataForm, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      
+      await axiosClient.post('api/empleados', dataForm);
     dispatch({
       type: "ADD_EMPLEADO_SUCCESS",
       data: true,
@@ -151,14 +131,9 @@ export const actualizarEmpleado = (dataForm, resetForm, navigate) => {
 
     dispatch({ type: "EDIT_EMPLEADO_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
+      
      
-      await axiosClient.put('api/empleados', dataForm, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axiosClient.put('api/empleados', dataForm);
      
     dispatch({
       type: "EDIT_EMPLEADO_SUCCESS",

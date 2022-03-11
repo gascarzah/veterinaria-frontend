@@ -7,13 +7,8 @@ export const getServicios = (page, size) => {
   return async (dispatch) => {
     dispatch({ type: "GET_SERVICIOS_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      const response = await axiosClient.get(`api/servicios/pageable?page=${page}&size=${size}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      
+      const response = await axiosClient.get(`api/servicios/pageable?page=${page}&size=${size}`);
       dispatch({
         type: "GET_SERVICIOS_SUCCESS",
         data: response.data,
@@ -39,14 +34,9 @@ export const getServicio = (id) => {
 
     dispatch({ type: "GET_SERVICIO_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
+      
       const response = await axiosClient.get(
-        `api/servicios/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        `api/servicios/${id}`);
       dispatch({
         type: "GET_SERVICIO_SUCCESS",
         data: response.data,
@@ -72,18 +62,9 @@ export const eliminarServicio = (id, page, size) => {
   return async (dispatch) => {
     dispatch({ type: "DELETE_SERVICIO_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-       await axiosClient.delete(`api/servicios/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-       const response = await axiosClient.get(`api/servicios/pageable?page=${page}&size=${size}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      
+       await axiosClient.delete(`api/servicios/${id}`);
+       const response = await axiosClient.get(`api/servicios/pageable?page=${page}&size=${size}`);
       //  const response = arrayList.filter((obj) => obj.idServicio !== id)
       
       
@@ -111,14 +92,8 @@ export const crearServicio = (dataForm, resetForm, navigate) => {
 
     dispatch({ type: "ADD_SERVICIO_START" });
     try {
-      
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      await axiosClient.post('api/servicios', dataForm, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      await axiosClient.post('api/servicios', dataForm);
 
     dispatch({
       type: "ADD_SERVICIO_SUCCESS",
@@ -156,13 +131,8 @@ export const actualizarServicio = (dataForm, resetForm, navigate) => {
     
     dispatch({ type: "EDIT_SERVICIO_START" });
     try {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      const token = user.access_token;
-      await axiosClient.put('api/servicios', dataForm, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+
+      await axiosClient.put('api/servicios', dataForm);
       //  const response = await axiosClient.get(`api/servicios/pageable?page=${page}&size=${size}`);
 
     dispatch({

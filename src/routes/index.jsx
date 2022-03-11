@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import SignIn from "../pages/SignIn";
 import Dashboard from "../pages/Dashboard";
 import SignUp from "../pages/SignUp";
@@ -30,7 +30,48 @@ import EditarServicio from "../pages/Servicio/Editar";
 import AgregarVenta from "../pages/Venta/Agregar";
 import EditarVenta from "../pages/Venta/Editar";
 
+import dayjs from "dayjs";
+import jwt_decode from "jwt-decode";
+
+
 const Rutas = () => {
+//   // console.log('en rutas')
+//   // const user = JSON.parse(sessionStorage.getItem('user'))
+//   // console.log(user)
+// const [isLogged, setIsLogged] = useState(false)
+
+// useEffect(() => {
+//   console.log('en rutas')
+//   const user = JSON.parse(sessionStorage.getItem('user'))
+//   setIsLogged(user.isLogged)
+// }, [])
+
+  // useEffect(() => {
+  //   const user = sessionStorage.getItem("user")
+  //   ? JSON.parse(sessionStorage.getItem("user"))
+  //   : null;
+  //   console.log(user)   
+  //   if(user){
+  //     console.log('entro')
+  //     const decodeRefreshToken = jwt_decode(user.refresh_token);
+  //   const refreshTokenisExpired =
+  //     dayjs.unix(decodeRefreshToken.exp).diff(dayjs()) < 1;
+  //     if(refreshTokenisExpired){
+  //       console.log('expirado')
+  //       console.log(refreshTokenisExpired)
+  //     setIsExpired(refreshTokenisExpired)
+  //     sessionStorage.setItem("user", {access_toke: null,
+  //                                   refresh_token: null,
+  //                                   logged: false})
+  //                                 }
+  //   }
+  // }, [])
+
+  // console.log('espirado')
+  // console.log(isExpired)
+  
+  
+
   return (
     <BrowserRouter>
       <Routes>
@@ -53,12 +94,13 @@ const Rutas = () => {
             }
           />
         </Route>
+        
         <Route
           index
           path="/dashboard"
           element={
             <PrivateRoute>
-              <Dashboard />
+            <Dashboard /> 
             </PrivateRoute>
           }
         />
@@ -66,7 +108,7 @@ const Rutas = () => {
           index
           path="/list-animal"
           element={
-            <PrivateRoute>
+            <PrivateRoute >
               <Animal />
             </PrivateRoute>
           }

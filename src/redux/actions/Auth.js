@@ -15,12 +15,7 @@ export const login = (dataForm,resetForm) => {
       });
 
     } catch (error) {
-// if (error.response) {
-//   // Request made and server responded
-//   console.log(error.response.data);
-//   console.log(error.response.status);
-//   console.log(error.response.headers);
-// }
+
       dispatch({
         type: "GET_AUTH_FAIL",
         error: 'error',
@@ -32,5 +27,13 @@ export const login = (dataForm,resetForm) => {
         type: "GET_AUTH_FINISH",
       });
     }
+  };
+};
+
+export const logout = () => {
+  return async (dispatch) => {
+
+    dispatch({ type: "LOGOUT" });
+    
   };
 };
