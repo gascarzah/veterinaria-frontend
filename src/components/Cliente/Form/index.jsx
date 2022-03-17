@@ -1,6 +1,7 @@
 import {
   Alert,
   Button,
+  CircularProgress,
   Container,
   CssBaseline,
   FormHelperText,
@@ -45,25 +46,23 @@ const useStyles = {
 const validationSchema = Yup.object({
   nombres: Yup.string().required("El titulo es Obligatorio"),
   apellidoPaterno: Yup.string().required("El apellido paterno es Obligatoria"),
-  apellidoMaterno: Yup.string().required(
-    "Tipo apellido materno es Obligatorio"
-  ),
+  apellidoMaterno: Yup.string().required("Tipo apellido materno es Obligatorio"),
   tipoDocumento: Yup.string().required("Tipo de documento es Obligatorio"),
   numeroDocumento: Yup.string().required("Numero de documento es Obligatorio"),
   sexo: Yup.string().required("Sexo es Obligatorio"),
   telefono: Yup.string().required("Telefono es Obligatorio"),
-  celular: Yup.string().notRequired(),
+  // celular: Yup.string().notRequired(),
   correo: Yup.string().required("Correo es Obligatorio"),
-  ruc: Yup.string().notRequired(),
-  razonSocial: Yup.string().notRequired(),
+  // ruc: Yup.string().notRequired(),
+  // razonSocial: Yup.string().notRequired(),
   direccion: Yup.string().notRequired(),
-  observacion: Yup.string().notRequired(),
+  // observacion: Yup.string().notRequired(),
 });
 const ClienteForm = ({ editar = false, dataForm }) => {
   const state = useSelector((state) => state);
   const { clienteReducer } = state;
-  const { messageCrud } = clienteReducer;
-
+  const { messageCrud, loadingCrud } = clienteReducer;
+  
   const navigate = useNavigate();
 
   const ejecutar = (valores, resetForm) => {
@@ -105,6 +104,7 @@ const ClienteForm = ({ editar = false, dataForm }) => {
                   onChange={props.handleChange}
                   label="tipoDocumento"
                   defaultValue={""}
+                  disabled={editar}
                 >
                   <MenuItem value="">
                     <em>Ninguno</em>
@@ -121,6 +121,7 @@ const ClienteForm = ({ editar = false, dataForm }) => {
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
+                
                   variant="outlined"
                   margin="normal"
                   fullWidth
@@ -139,6 +140,7 @@ const ClienteForm = ({ editar = false, dataForm }) => {
                     props.touched.numeroDocumento &&
                     props.errors.numeroDocumento
                   }
+                  disabled={editar}  
                 />
               </Grid>
               <Grid item xs={12} sm={4}></Grid>
@@ -323,11 +325,11 @@ const ClienteForm = ({ editar = false, dataForm }) => {
               fullWidth
               variant="contained"
               color="primary"
-              // endIcon={
-              //   loading ?(
-              //     <CircularProgress size={20} />
-              //   ): null
-              // }
+              endIcon={
+                loadingCrud ?(
+                  <CircularProgress size={20} />
+                ): null
+              }
             >
               {editar ? "Editar" : "Crear"}
             </Button>

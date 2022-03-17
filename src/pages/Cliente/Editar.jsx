@@ -23,10 +23,18 @@ const EditarCliente = () => {
 
   useEffect(() => {
     if (loadingCrud) {
+      console.log(cliente)
       setEditInitialValues({
         idCliente: cliente.idCliente,
-        nombre: cliente.nombre,
-        descripcion: cliente.descripcion,
+        nombres: cliente.nombres,
+        apellidoPaterno: cliente.apellidoPaterno,
+        apellidoMaterno: cliente.apellidoMaterno,
+        tipoDocumento: cliente.tipoDocumento,
+        numeroDocumento: cliente.numeroDocumento,
+        sexo: cliente.sexo,
+        telefono: cliente.telefono,
+        direccion: cliente.direccion,
+        correo: cliente.correo
       });
     }
   }, [cliente]);

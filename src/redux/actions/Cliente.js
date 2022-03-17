@@ -134,12 +134,17 @@ export const crearCliente = (dataForm, resetForm, navigate) => {
     }, 1500);
 
     } catch (error) {
-      console.log(error)
+      if (error.response) {
+        // Request made and server responded
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      }
       dispatch({
         type: "ADD_CLIENTE_FAIL",
         
-          error: true,
-          message: 'Error al agregar cliente'
+          error: "error",
+          message: error.response.data.mensaje
       
       })
     }finally{

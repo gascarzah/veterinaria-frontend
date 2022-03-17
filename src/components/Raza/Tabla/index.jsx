@@ -25,7 +25,6 @@ import { Link } from "react-router-dom";
 import {
   getRazas,
   eliminarRaza,
-  getRaza,
 } from "../../../redux/actions/Raza";
 import TablaHeader from "../../TablaHeader";
 

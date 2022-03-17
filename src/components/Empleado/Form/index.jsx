@@ -1,6 +1,7 @@
 import {
   Alert,
   Button,
+  CircularProgress,
   Container,
   CssBaseline,
   FormHelperText,
@@ -61,7 +62,7 @@ const validationSchema = Yup.object({
 const EmpleadoForm = ({ editar = false, dataForm, entidad, mantenimiento }) => {
   const state = useSelector((state) => state);
   const { empleadoReducer } = state;
-  const { messageCrud } = empleadoReducer;
+  const { messageCrud, loadingCrud } = empleadoReducer;
 
   // console.log("messageCrud");
   // console.log(messageCrud);
@@ -109,6 +110,7 @@ const EmpleadoForm = ({ editar = false, dataForm, entidad, mantenimiento }) => {
                   onChange={props.handleChange}
                   label="tipoDocumento"
                   defaultValue={""}
+                  disabled={editar}
                 >
                   <MenuItem value="">
                     <em>Ninguno</em>
@@ -143,6 +145,7 @@ const EmpleadoForm = ({ editar = false, dataForm, entidad, mantenimiento }) => {
                     props.touched.numeroDocumento &&
                     props.errors.numeroDocumento
                   }
+                  disabled={editar}
                 />
               </Grid>
               <Grid item xs={12} sm={4}></Grid>
@@ -327,11 +330,11 @@ const EmpleadoForm = ({ editar = false, dataForm, entidad, mantenimiento }) => {
               fullWidth
               variant="contained"
               color="primary"
-              // endIcon={
-              //   loading ?(
-              //     <CircularProgress size={20} />
-              //   ): null
-              // }
+              endIcon={
+                loadingCrud ?(
+                  <CircularProgress size={20} />
+                ): null
+              }
             >
               {editar ? "Editar" : "Crear"}
             </Button>
