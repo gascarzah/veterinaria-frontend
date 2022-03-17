@@ -46,8 +46,7 @@ const validationSchema = Yup.object({
 });
 
 const AnimalForm = ({ editar = false, dataForm }) => {
-  const linkRedirect = `/list-animal`;
-  const state = useSelector((state) => state);
+   const state = useSelector((state) => state);
   const { animalReducer } = state;
   const { loadingCrud, messageCrud } = animalReducer;
   const dispatch = useDispatch();

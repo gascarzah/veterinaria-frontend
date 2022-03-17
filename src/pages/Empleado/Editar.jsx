@@ -17,7 +17,7 @@ const EditarEmpleado = () => {
 
   useEffect(() => {
     dispatch(getEmpleado(id));
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (loadingCrud) {

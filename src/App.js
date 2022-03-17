@@ -7,7 +7,6 @@ import Rutas from "./routes";
 
 
 
-
 function ErrorFallback({error}) {
   return (
     <div role="alert">

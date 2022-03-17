@@ -17,7 +17,7 @@ const EditarMascota = () => {
 
   useEffect(() => {
     dispatch(getMascota(id));
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (loadingCrud) {

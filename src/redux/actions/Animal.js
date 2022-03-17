@@ -1,4 +1,5 @@
 import axiosClient from "../../config/axios";
+import { logout } from "./Auth";
 
 export const getTodoAnimales = () => {
   return async (dispatch) => {
@@ -45,13 +46,6 @@ export const getAnimales = (page, size) => {
         data: response.data,
       });
     } catch (error) {
-      // if (error.response) {
-      //   const {error_message} = error.response.data
-      //   console.log('in error animal')
-      //   console.log(error_message);
-      //   // console.log(error.response.status);
-      //   // console.log(error.response.headers);
-      // }
       dispatch({
         type: "GET_ANIMALES_FAIL",
         error: true,

@@ -18,7 +18,7 @@ const EditarAnimal = () => {
 
   useEffect(() => {
     dispatch(getAnimal(id));
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (loadingCrud) {

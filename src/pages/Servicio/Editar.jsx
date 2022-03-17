@@ -17,7 +17,7 @@ const EditarServicio = () => {
 
   useEffect(() => {
     dispatch(getServicio(id));
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (loadingCrud) {

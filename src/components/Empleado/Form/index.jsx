@@ -11,13 +11,13 @@ import {
   TextField,
 } from "@mui/material";
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import "../../../assets/css/main.css";
-import { getSexo, getTipoDocumento } from "../../../redux/actions/Maestra";
+
 import {
   actualizarEmpleado,
   crearEmpleado,

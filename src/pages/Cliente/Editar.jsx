@@ -19,7 +19,7 @@ const EditarCliente = () => {
 
   useEffect(() => {
     dispatch(getCliente(id));
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (loadingCrud) {

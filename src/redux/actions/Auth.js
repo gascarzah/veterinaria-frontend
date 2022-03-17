@@ -8,7 +8,8 @@ export const login = (dataForm,resetForm) => {
     try {
       
       const response = await axiosClient.post("/api/login", dataForm);
-    
+      // console.log('response')
+      // console.log(response)
       dispatch({
         type: "GET_AUTH_SUCCESS",
         data: response.data,

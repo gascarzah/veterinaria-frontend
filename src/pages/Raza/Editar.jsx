@@ -17,7 +17,7 @@ const EditarRaza = () => {
 
   useEffect(() => {
     dispatch(getRaza(id));
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (loadingCrud) {

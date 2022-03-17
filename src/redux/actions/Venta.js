@@ -126,7 +126,7 @@ export const crearVenta = (dataForm, resetForm, navigate) => {
 
 export const actualizarVenta = (dataForm, resetForm, navigate) => {
   return async (dispatch) => {
-    // console.log('5')
+    
     dispatch({ type: "EDIT_VENTA_START" });
     try {
      

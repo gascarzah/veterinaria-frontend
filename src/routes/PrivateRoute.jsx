@@ -18,8 +18,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from '../pages/listItems';
-import { useSelector } from 'react-redux';
+
 import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 function Copyright(props) {
@@ -84,13 +85,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 const PrivateRoute = ({ children }) => {
-const user = JSON.parse(sessionStorage.getItem('user'))
-console.log('user')
-console.log(user)
+// const user = JSON.parse(sessionStorage.getItem('user'))
 
-    // const state = useSelector((state) => state);
-  // const { authReducer } = state;
-  // const { user } = authReducer;
+
+    const state = useSelector((state) => state);
+  const { authReducer } = state;
+  const { user } = authReducer;
+
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -98,9 +99,10 @@ console.log(user)
   
 
 
-
   return (
-
+    <>
+    {/* {!user && (<Navigate to='/' />)} */}
+    {/* {user && ( */}
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
@@ -183,11 +185,9 @@ console.log(user)
                     
                   }}
                 >
-                  {console.log('usuario logeado o no')}
-                  {console.log(user.logged)}
+
                     {user.logged ? children : <Navigate to='/' />}
-                    {/* {checkAuth ? children : <Navigate to='/' />} */}
-                  {/* <Chart /> */}
+
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
@@ -215,7 +215,10 @@ console.log(user)
         </Box>
       </Box>
     </ThemeProvider>
-  );
+    {/* // )}   */}
+  </>
+  )
+  
 }
 
 export default PrivateRoute;
