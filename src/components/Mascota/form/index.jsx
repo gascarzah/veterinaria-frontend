@@ -6,6 +6,7 @@ import {
   Container,
   CssBaseline,
   FormHelperText,
+  FormLabel,
   InputLabel,
   MenuItem,
   Select,
@@ -69,6 +70,8 @@ const MascotaForm = ({ editar = false, dataForm }) => {
   const [animales, setAnimales] = useState([]);
   const [razas, setRazas] = useState([]);
   const [clientes, setClientes] = useState([]);
+  const [image, setImage] = useState(null);
+  const [errorImage, setErrorImage] = useState(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -98,10 +101,15 @@ const MascotaForm = ({ editar = false, dataForm }) => {
   }, [clienteList]);
 
   const ejecutar = (valores, resetForm) => {
-    if (editar) {
-      dispatch(actualizarMascota({ ...valores }, resetForm, navigate));
+    console.log('ejecutar')
+    if (image) {
+      if (editar) {
+        dispatch(actualizarMascota({ ...valores, image }, resetForm, navigate));
+      } else {
+        dispatch(crearMascota({ ...valores, image }, resetForm, navigate));
+      }
     } else {
-      dispatch(crearMascota({ ...valores }, resetForm, navigate));
+      setErrorImage("Campo requerido");
     }
   };
 
@@ -116,6 +124,12 @@ const MascotaForm = ({ editar = false, dataForm }) => {
 
   const itemCliente = (idCliente) => {
     return getItemCliente(idCliente)[0];
+  };
+
+  const handleUpladoImage = (e) => {
+    const image = e.target.files[0];
+    setImage(image);
+    setErrorImage(null);
   };
 
   return (
@@ -297,6 +311,25 @@ const MascotaForm = ({ editar = false, dataForm }) => {
                   <Alert severity={messageCrud.code}>
                     {messageCrud.message}
                   </Alert>
+                )}
+                <FormLabel component="legend">Imagen</FormLabel>
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="contained-button-file"
+                  multiple
+                  name="image"
+                  onChange={handleUpladoImage}
+                />
+                {image && (
+                  <FormHelperText style={{ color: "blue" }}>
+                    {image.name}
+                  </FormHelperText>
+                )}
+                {errorImage && (
+                  <FormHelperText style={{ color: "red" }}>
+                    {errorImage}
+                  </FormHelperText>
                 )}
                 <Button
                   type="submit"

@@ -1,5 +1,5 @@
 import axiosClient from "../../config/axios";
-import { logout } from "./Auth";
+
 
 export const getTodoAnimales = () => {
   return async (dispatch) => {
