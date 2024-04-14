@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import SignIn from "../pages/SignIn";
 import Dashboard from "../pages/Dashboard";
 import SignUp from "../pages/SignUp";
@@ -32,6 +32,7 @@ import EditarVenta from "../pages/Venta/Editar";
 
 
 import SetupInterceptors from "../config/SetupInterceptors";
+// import Programacion from "../pages/Programacion";
 
 
 const Rutas = () => {
@@ -44,7 +45,7 @@ const Rutas = () => {
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter >
     {<NavigateFunctionComponent />}
       <Routes>
         <Route path="/">
@@ -274,6 +275,17 @@ const Rutas = () => {
             </PrivateRoute>
           }
         />
+
+        {/* programacion */}
+        {/* <Route
+          index
+          path="/list-programacion"
+          element={
+            <PrivateRoute>
+              <Programacion />
+            </PrivateRoute>
+          }
+        /> */}
       </Routes>
     </BrowserRouter>
   );

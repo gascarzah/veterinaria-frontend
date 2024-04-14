@@ -61,6 +61,12 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Venta" />
     </ListItemButton>
+    {/* <ListItemButton component="a" href='/list-programacion'>
+      <ListItemIcon>
+        <LayersIcon />
+      </ListItemIcon>
+      <ListItemText primary="Programacion" />
+    </ListItemButton> */}
   </React.Fragment>
 );
 

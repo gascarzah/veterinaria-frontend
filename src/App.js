@@ -20,9 +20,9 @@ function ErrorFallback({error}) {
 function App() {
   return (
     <div className="App">
-      <Container fixed>
+      <Container fixed >
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Provider store={store}>
+        <Provider store={store} >
           
             <Rutas />
          
